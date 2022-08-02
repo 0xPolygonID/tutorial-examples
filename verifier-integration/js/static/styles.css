@@ -1,0 +1,163 @@
+:root {
+  --dark: #1a1a1a;
+  --bg: #e9e9e9;
+  --dark-text: #3b3b3b;
+  --progress-bar: #cb132d;
+  --progress-bg: #798486;
+  --primary: #674bde;
+  --secondary: #09cde7;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg);
+}
+
+.main-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+#qrcode {
+  margin-left: 40px;
+  padding: 20px;
+  border: 3px dashed var(--dark);
+  border-radius: 30px;
+  height: 350px;
+  width: 350px;
+  display: none;
+}
+
+/* CSS */
+.btn-qr {
+  background-color: transparent;
+  border: 2px solid var(--dark);
+  border-radius: 15px;
+  color: var(--dark-text);
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  min-height: 60px;
+  min-width: 0;
+  outline: none;
+  padding: 16px 24px;
+  text-align: center;
+  transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
+  user-select: none;
+  touch-action: manipulation;
+  width: 200px;
+  will-change: transform;
+}
+
+.btn-qr:disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.btn-qr:hover {
+  color: #fff;
+  background-color: var(--dark);
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+.btn-qr:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
+
+.loader {
+  margin: 2px;
+  width: 500px;
+  border: 4px solid transparent;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  padding: 2px;
+}
+
+.loader:before {
+  content: "";
+  border: 1px solid var(--dark);
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  bottom: -4px;
+  left: -4px;
+}
+.loader .loaderBar {
+  position: absolute;
+  top: 0;
+  right: 100%;
+  bottom: 0;
+  left: 0;
+  background: var(--dark);
+  width: 0;
+  animation: borealisBar 3s linear infinite;
+}
+
+@keyframes borealisBar {
+  0% {
+    left: 0%;
+    right: 100%;
+    width: 0%;
+  }
+  10% {
+    left: 0%;
+    right: 75%;
+    width: 25%;
+  }
+  90% {
+    right: 0%;
+    left: 75%;
+    width: 25%;
+  }
+  100% {
+    left: 100%;
+    right: 0%;
+    width: 0%;
+  }
+}
+.info {
+  border: 1px dashed var(--dark);
+  padding: 2em;
+}
+
+.info .title {
+  text-align: center;
+  color: var(--dark-text);
+  font-size: 20px;
+}
+
+.info pre {
+  outline: none;
+  padding: 5px;
+  margin: 5px;
+}
+.string {
+  color: green;
+}
+.number {
+  color: darkorange;
+}
+.boolean {
+  color: blue;
+}
+.null {
+  color: magenta;
+}
+.key {
+  color: var(--dark-text);
+}
+
+pre:empty {
+  display: ns;
+}
