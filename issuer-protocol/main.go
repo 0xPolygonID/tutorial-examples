@@ -124,7 +124,22 @@ func main() {
 
 	fmt.Println("ID:", id)
 
-	// 5. Identity State Transition
+	// 5. Issuing Claim by Signature
+
+	// Retrieve indexHash and valueHash of the claim
+	claimIndex, claimValue := claim.RawSlots()
+	indexHash, _ := poseidon.Hash(core.ElemBytesToInts(claimIndex[:]))
+	valueHash, _ := poseidon.Hash(core.ElemBytesToInts(claimValue[:]))
+
+	// Poseidon Hash the indexHash and the valueHash together to get the claimHash
+	claimHash, _ := merkletree.HashElems(indexHash, valueHash)
+
+	// Sign the claimHash with the private key of the issuer
+	claimSignature := babyJubjubPrivKey.SignPoseidon(claimHash.BigInt())
+
+	fmt.Println("Claim Signature:", claimSignature)
+
+	// 6. Issuing Claim by adding it to the Merkle Tree
 
 	// GENESIS STATE:
 
