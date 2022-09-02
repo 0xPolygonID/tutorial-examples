@@ -16,7 +16,7 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/api/sign-in", GetQR)
+	http.HandleFunc("/api/sign-in", GetAuthRequest)
 	http.HandleFunc("/api/callback", Callback)
 	http.ListenAndServe(":8080", nil)
 }
@@ -25,10 +25,10 @@ func main() {
 var requestMap = make(map[string]interface{})
 
 // GetQR returns auth request
-func GetQR(w http.ResponseWriter, r *http.Request) {
+func GetAuthRequest(w http.ResponseWriter, r *http.Request) {
 
 	// Audience is verifier id
-	rURL := "<YOUR REMOTE HOST>"
+	rURL := "<YOUR REMOTE  NGROK HOST>"
 	sessionID := 1
 	CallbackURL := "/api/callback"
 	Audience := "1125GJqgw6YEsKFwj63GY87MMxPL9kwDKxPUiwMLNZ"

@@ -8,13 +8,13 @@ const port = 8080;
 app.use(express.static('static'));
 
 app.get("/api/sign-in", (req, res) => {
-    console.log('get QR');
-    getQR(req,res);
+    console.log('get Auth Request');
+    GetAuthRequest(req,res);
 });
 
 app.post("/api/callback", (req, res) => {
     console.log('callback');
-    callback(req,res);
+    Callback(req,res);
 });
 
 app.listen(port, () => {
@@ -25,10 +25,10 @@ app.listen(port, () => {
 const requestMap = new Map();
 
 		// GetQR returns auth request
-		async function getQR(req,res) {
+		async function GetAuthRequest(req,res) {
 
 			// Audience is verifier id
-			const hostUrl = "<YOUR REMOTE HOST>";;
+			const hostUrl = "<YOUR REMOTE NGROK HOST>";;
 			const sessionId = 1;
 			const callbackURL = "/api/callback"
 			const audience = "1125GJqgw6YEsKFwj63GY87MMxPL9kwDKxPUiwMLNZ"
@@ -76,7 +76,7 @@ const requestMap = new Map();
         }
 
         // Callback verifies the proof after sign-in callbacks
-		async function callback(req,res) {
+		async function Callback(req,res) {
 
 			// Get session ID from request
 			const sessionId = req.query.sessionId;
@@ -87,15 +87,13 @@ const requestMap = new Map();
 
 			// fetch authRequest from sessionID
 			const authRequest = requestMap.get(`${sessionId}`);
-
-			console.log(authRequest)
 				
 			// Locate the directory that contains circuit's verification keys
-			const verificationKeyloader = new loaders.FSKeyLoader('../keys');
+			const verificationKeyloader = new loaders.FSKeyLoader('./keys');
 			const sLoader = new loaders.UniversalSchemaLoader('ipfs.io');
 
 			// Add Polygon RPC node endpoint - needed to read on-chain state and identity state contract address
-			const ethStateResolver = new resolver.EthStateResolver('https://polygon-mainnet.g.alchemy.com/v2/bWaWfKLExAb_SZC_JUSNY6a6cCZGsTpb', '0xb8a86e138C3fe64CbCba9731216B1a638EEc55c8');
+			const ethStateResolver = new resolver.EthStateResolver('<RPCNODEURL>', '0xb8a86e138C3fe64CbCba9731216B1a638EEc55c8');
 
 			// EXECUTE VERIFICATION
 			const verifier = new auth.Verifier(
