@@ -20,5 +20,5 @@ func main() {
 	sHashHex, _ := sHash.MarshalText()
 
 	fmt.Println(string(sHashHex))
-	// 5a5cb158b44f6b5a132789ce1abc73ae
+	// 4f6bbcb133bfd4e9ebdf09b16a0816c8
 }

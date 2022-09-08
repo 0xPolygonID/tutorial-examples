@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"math/big"
+	"time"
 
 	"github.com/iden3/go-circuits"
 	core "github.com/iden3/go-iden3-core"
@@ -61,13 +62,24 @@ func main() {
 
 	// 3.1. Create a Generic Claim
 
-	ageSchema, _ := core.NewSchemaHashFromHex("ce38102464833febf36e714922a83050")
+	// set claim expriation date to 2361-03-22T00:44:48+05:30
+	t := time.Date(2361, 3, 22, 0, 44, 48, 0, time.UTC)
 
-	// define age
-	age := big.NewInt(25)
+	// set schema
+	ageSchema, _ := core.NewSchemaHashFromHex("2e2d1c11ad3e500de68d7ce16a0a559e")
 
-	// create claim based on the ageSchema storing the age in the first index slot, while the second data slot remains empty
-	claim, _ := core.NewClaim(ageSchema, core.WithIndexDataInts(age, nil))
+	// define data slots
+	birthday := big.NewInt(19960424)
+	documentType := big.NewInt(1)
+
+	// set revocation nonce
+	revocationNonce := uint64(1909830690)
+
+	// set ID of the claim subject
+	subjectId, _ := core.IDFromString("113TCVw5KMeMp99Qdvub9Mssfz7krL9jWNvbdB7Fd2")
+
+	// create claim
+	claim, _ := core.NewClaim(ageSchema, core.WithExpirationDate(t), core.WithRevocationNonce(revocationNonce), core.WithIndexID(subjectId), core.WithIndexDataInts(birthday, documentType))
 
 	// transform claim from bytes array to json
 	claimToMarshal, _ := json.Marshal(claim)
