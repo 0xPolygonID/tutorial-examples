@@ -28,7 +28,7 @@ const requestMap = new Map();
 		async function GetAuthRequest(req,res) {
 
 			// Audience is verifier id
-			const hostUrl = "<YOUR REMOTE NGROK HOST>";;
+			const hostUrl = "<NGROK URL>";
 			const sessionId = 1;
 			const callbackURL = "/api/callback"
 			const audience = "1125GJqgw6YEsKFwj63GY87MMxPL9kwDKxPUiwMLNZ"
@@ -89,11 +89,11 @@ const requestMap = new Map();
 			const authRequest = requestMap.get(`${sessionId}`);
 				
 			// Locate the directory that contains circuit's verification keys
-			const verificationKeyloader = new loaders.FSKeyLoader('./keys');
+			const verificationKeyloader = new loaders.FSKeyLoader('../keys');
 			const sLoader = new loaders.UniversalSchemaLoader('ipfs.io');
 
 			// Add Polygon RPC node endpoint - needed to read on-chain state and identity state contract address
-			const ethStateResolver = new resolver.EthStateResolver('<RPCNODEURL>', '0xb8a86e138C3fe64CbCba9731216B1a638EEc55c8');
+			const ethStateResolver = new resolver.EthStateResolver('<Polygon RPC NODE>', '0xb8a86e138C3fe64CbCba9731216B1a638EEc55c8');
 
 			// EXECUTE VERIFICATION
 			const verifier = new auth.Verifier(
