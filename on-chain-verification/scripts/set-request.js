@@ -1,7 +1,8 @@
 async function main() {
 
   const circuitId = "credentialAtomicQuerySig";
-  const validatorAddress = "0x98ff8015A7E0f9646fBF9fF6225489c34c8E4F83";
+  // already deployed on Mumbai
+  const validatorAddress = "0xb1e86C4c687B85520eF4fd2a0d14e81970a15aFB";
   
   const ageQuery = {
     schema: ethers.BigNumber.from("210459579859058135404770043788028292398"),
@@ -12,7 +13,7 @@ async function main() {
   };
 
   // add the address of the contract just deployed
-  ERC20VerifierAddress = "0xB853a8779CD0751d276339618f6809Da6F033D93"
+  ERC20VerifierAddress = "0xF8c797A0682dcF11996D4dE2a6383bA1c0b962A8"
 
   let erc20Verifier = await hre.ethers.getContractAt("ERC20Verifier", ERC20VerifierAddress)
 
