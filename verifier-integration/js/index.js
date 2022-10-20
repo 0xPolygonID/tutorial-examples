@@ -92,8 +92,8 @@ const requestMap = new Map();
 			const verificationKeyloader = new loaders.FSKeyLoader('../keys');
 			const sLoader = new loaders.UniversalSchemaLoader('ipfs.io');
 
-			// Add Polygon RPC node endpoint - needed to read on-chain state and identity state contract address
-			const ethStateResolver = new resolver.EthStateResolver('<Polygon RPC NODE>', '0xb8a86e138C3fe64CbCba9731216B1a638EEc55c8');
+			// Add Polygon Mumbai RPC node endpoint - needed to read on-chain state and identity state contract address
+			const ethStateResolver = new resolver.EthStateResolver('<Polygon Mumbai RPC NODE>', '0x46Fd04eEa588a3EA7e9F055dd691C688c4148ab3');
 
 			// EXECUTE VERIFICATION
 			const verifier = new auth.Verifier(

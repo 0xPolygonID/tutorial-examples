@@ -28,7 +28,7 @@ var requestMap = make(map[string]interface{})
 func GetAuthRequest(w http.ResponseWriter, r *http.Request) {
 
 	// Audience is verifier id
-	rURL := "<YOUR REMOTE  NGROK HOST>"
+	rURL := "<YOUR REMOTE NGROK HOST>"
 	sessionID := 1
 	CallbackURL := "/api/callback"
 	Audience := "1125GJqgw6YEsKFwj63GY87MMxPL9kwDKxPUiwMLNZ"
@@ -87,11 +87,11 @@ func Callback(w http.ResponseWriter, r *http.Request) {
 	// get JWZ token params from the post request
 	tokenBytes, err := io.ReadAll(r.Body)
 
-	// Add Polygon RPC node endpoint - needed to read on-chain state
+	// Add Polygon Mumbai RPC node endpoint - needed to read on-chain state
 	ethURL := "<RPCNODEURL>"
 
 	// Add identity state contract address
-	contractAddress := "0xb8a86e138C3fe64CbCba9731216B1a638EEc55c8"
+	contractAddress := "0x46Fd04eEa588a3EA7e9F055dd691C688c4148ab3"
 
 	// Locate the directory that contains circuit's verification keys
 	keyDIR := "../keys"
