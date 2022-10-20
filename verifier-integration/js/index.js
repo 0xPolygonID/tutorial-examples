@@ -48,23 +48,23 @@ const requestMap = new Map();
 
 			// Add request for a specific proof
 			const proofRequest = {
-			id: 1,
-			circuit_id: 'credentialAtomicQuerySig',
-			rules: {
-				query: {
-				allowedIssuers: ['*'],
-				schema: {
-					type: 'AgeCredential',
-					url: 'https://schema.polygonid.com/jsonld/kyc.json-ld',
-				},
-				req: {
-					birthDay: {
-					$lt: 20000101, // bithDay field less then 2000/01/01
+				id: 1,
+				circuit_id: 'credentialAtomicQuerySig',
+				rules: {
+					query: {
+					allowedIssuers: ['*'],
+					schema: {
+						type: 'AgeCredential',
+						url: 'https://s3.eu-west-1.amazonaws.com/polygonid-schemas/9b1c05f4-7fb6-4792-abe3-d1ddbd9a9609.json-ld',
+					},
+					req: {
+						dateOfBirth: {
+						$lt: 20000101, // bithDay field less then 2000/01/01
+						},
+					},
 					},
 				},
-				},
-			},
-			};
+				};
 
 			const scope = request.body.scope ?? [];
 			request.body.scope = [...scope, proofRequest];

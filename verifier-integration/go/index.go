@@ -51,12 +51,12 @@ func GetAuthRequest(w http.ResponseWriter, r *http.Request) {
 		"query": pubsignals.Query{
 			AllowedIssuers: []string{"*"},
 			Req: map[string]interface{}{
-				"birthDay": map[string]interface{}{
+				"dateOfBirth": map[string]interface{}{
 					"$lt": 20000101,
 				},
 			},
 			Schema: protocol.Schema{
-				URL:  "https://schema.polygonid.com/jsonld/kyc.json-ld",
+				URL:  "https://s3.eu-west-1.amazonaws.com/polygonid-schemas/9b1c05f4-7fb6-4792-abe3-d1ddbd9a9609.json-ld",
 				Type: "AgeCredential",
 			},
 		},
