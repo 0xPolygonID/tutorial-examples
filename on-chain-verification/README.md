@@ -29,7 +29,9 @@ This tutorial uses [Hardhat](https://hardhat.org/) as a development environment 
  - results in x tx hash: 0xecf178144CceC09417412D66E2ecC8a2841eE228
  - example contract creation: https://mumbai.polygonscan.com/address/0xecf178144ccec09417412d66e2ecc8a2841ee228
 
-5. Update the `ERC20VerifierAddress` variable in scripts/set-request.js with your deployed contract address
+5. Update the `ERC20VerifierAddress` variable in scripts/set-request.js with your deployed contract address along with the `schemaHash` 
+   - schemaHash can be found https://platform-test.polygonid.com/claiming/created-schemas?schemaID=xxxxxxx-xxxx-xxxx-xxxxx-xxxxxxxx
+   ![Screenshot from 2022-12-23 16-11-50](https://user-images.githubusercontent.com/44597990/209298460-dc936f50-9d3f-4cc7-be1e-2955a8dac323.png)
 
 6. Run set-request to send the zk request to the smart contract
     `npx hardhat run --network mumbai scripts/set-request.js`
