@@ -1,13 +1,13 @@
 module example/iden3-tutorial
 
-go 1.17
+go 1.19
 
 require (
 	github.com/dchest/blake512 v1.0.0 // indirect
-	github.com/iden3/go-circuits v0.1.0 // indirect
-	github.com/iden3/go-iden3-core v0.1.0 // indirect
+	github.com/iden3/go-circuits v0.1.1 // indirect
+	github.com/iden3/go-iden3-core v0.1.1-0.20230110091701-2007727025e0 // indirect
 	github.com/iden3/go-iden3-crypto v0.0.13 // indirect
-	github.com/iden3/go-merkletree-sql v1.0.1 // indirect
+	github.com/iden3/go-merkletree-sql/v2 v2.0.0 // indirect
 	github.com/mr-tron/base58 v1.2.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	golang.org/x/crypto v0.0.0-20211117183948-ae814b36b871 // indirect
