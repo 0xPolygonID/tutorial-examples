@@ -12,8 +12,8 @@ import (
 	core "github.com/iden3/go-iden3-core"
 	"github.com/iden3/go-iden3-crypto/babyjub"
 	"github.com/iden3/go-iden3-crypto/poseidon"
-	merkletree "github.com/iden3/go-merkletree-sql"
-	"github.com/iden3/go-merkletree-sql/db/memory"
+	merkletree "github.com/iden3/go-merkletree-sql/v2"
+	"github.com/iden3/go-merkletree-sql/v2/db/memory"
 )
 
 func main() {
@@ -88,12 +88,10 @@ func main() {
 
 	// 3.2. Create Auth Claim
 
-	authSchemaHash, _ := core.NewSchemaHashFromHex("ca938857241db9451ea329256b9c06e5")
-
 	// Add revocation nonce. Used to invalidate the claim. This may be a random number in the real implementation.
 	revNonce := uint64(1)
 
-	authClaim, _ := core.NewClaim(authSchemaHash,
+	authClaim, _ := core.NewClaim(core.AuthSchemaHash,
 		core.WithIndexDataInts(babyJubjubPubKey.X, babyJubjubPubKey.Y),
 		core.WithRevocationNonce(revNonce))
 
@@ -193,25 +191,32 @@ func main() {
 		ret.Root().BigInt(),
 		rot.Root().BigInt())
 
+	// Snapshot of the new tree State
+	newTreeState := circuits.TreeState{
+		State:          newState,
+		ClaimsRoot:     clt.Root(),
+		RevocationRoot: ret.Root(),
+		RootOfRoots:    rot.Root(),
+	}
+
 	// Sign a message (hash of the genesis state + the new state) using your private key
 	hashOldAndNewStates, _ := poseidon.Hash([]*big.Int{state.BigInt(), newState.BigInt()})
 
 	signature := babyJubjubPrivKey.SignPoseidon(hashOldAndNewStates)
 
+	authClaimNewStateIncMtp, _, _ := clt.GenerateProof(ctx, hIndex, newTreeState.ClaimsRoot)
+
 	// Generate state transition inputs
 	stateTransitionInputs := circuits.StateTransitionInputs{
-		ID:                id,
-		OldTreeState:      genesisTreeState,
-		NewState:          newState,
-		IsOldStateGenesis: true,
-		AuthClaim: circuits.Claim{
-			Claim: authClaim,
-			Proof: authMTPProof,
-			NonRevProof: &circuits.ClaimNonRevStatus{
-				Proof: authNonRevMTPProof,
-			},
-		},
-		Signature: signature,
+		ID:                      id,
+		OldTreeState:            genesisTreeState,
+		NewTreeState:            newTreeState,
+		IsOldStateGenesis:       true,
+		AuthClaim:               authClaim,
+		AuthClaimIncMtp:         authMTPProof,
+		AuthClaimNonRevMtp:      authNonRevMTPProof,
+		AuthClaimNewStateIncMtp: authClaimNewStateIncMtp,
+		Signature:               signature,
 	}
 
 	// Perform marshalling of the state transition inputs
