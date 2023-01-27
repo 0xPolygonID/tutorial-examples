@@ -1,29 +1,21 @@
 {
-  "name": "claim-schema-test",
+  "name": "state-transition-test",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/enricobottazzi/Claim-Schema-Test.git"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/enricobottazzi/Claim-Schema-Test/issues"
-  },
-  "homepage": "https://github.com/enricobottazzi/Claim-Schema-Test#readme",
   "dependencies": {
     "@nomiclabs/hardhat-waffle": "^2.0.3",
-    "@openzeppelin/contracts-upgradeable": "^4.7.2",
-    "dotenv": "^16.0.1"
+    "@openzeppelin/contracts-upgradeable": "^4.8.1",
+    "dotenv": "^16.0.3"
   },
   "devDependencies": {
-    "@nomicfoundation/hardhat-toolbox": "^1.0.2",
-    "hardhat": "^2.10.1"
+    "@nomicfoundation/hardhat-toolbox": "^2.0.1",
+    "hardhat": "^2.12.6"
   }
 }
