@@ -37,10 +37,8 @@ func GetAuthRequest(w http.ResponseWriter, r *http.Request) {
 
 	uri := fmt.Sprintf("%s%s?sessionId=%s", rURL, CallbackURL, strconv.Itoa(sessionID))
 
-	var request protocol.AuthorizationRequestMessage
-
 	// Generate request for basic authentication
-	request = auth.CreateAuthorizationRequestWithMessage("test flow", "message to sign", Audience, uri)
+	var request protocol.AuthorizationRequestMessage = auth.CreateAuthorizationRequestWithMessage("test flow", "message to sign", Audience, uri)
 
 	request.ID = "7f38a193-0918-4a48-9fac-36adfdb8b542"
 	request.ThreadID = "7f38a193-0918-4a48-9fac-36adfdb8b542"
@@ -83,7 +81,7 @@ func Callback(w http.ResponseWriter, r *http.Request) {
 	sessionID := r.URL.Query().Get("sessionId")
 
 	// get JWZ token params from the post request
-	tokenBytes, err := io.ReadAll(r.Body)
+	tokenBytes, _ := io.ReadAll(r.Body)
 
 	// Add Polygon Mumbai RPC node endpoint - needed to read on-chain state
 	ethURL := "<RPCNODEURL>"
@@ -97,7 +95,7 @@ func Callback(w http.ResponseWriter, r *http.Request) {
 	keyDIR := "../keys"
 
 	// fetch authRequest from sessionID
-	authRequest, _ := requestMap[sessionID]
+	authRequest := requestMap[sessionID]
 
 	// print authRequest
 	fmt.Println(authRequest)
