@@ -6,11 +6,10 @@ import (
 	"io"
 	"net/http"
 	"strconv"
+	"time"
 
-	"github.com/iden3/go-circuits"
 	auth "github.com/iden3/go-iden3-auth"
 	"github.com/iden3/go-iden3-auth/loaders"
-	"github.com/iden3/go-iden3-auth/pubsignals"
 	"github.com/iden3/go-iden3-auth/state"
 	"github.com/iden3/iden3comm/protocol"
 )
@@ -46,20 +45,16 @@ func GetAuthRequest(w http.ResponseWriter, r *http.Request) {
 	// Add request for a specific proof
 	var mtpProofRequest protocol.ZeroKnowledgeProofRequest
 	mtpProofRequest.ID = 1
-	mtpProofRequest.CircuitID = string(circuits.AtomicQuerySigCircuitID)
-	mtpProofRequest.Rules = map[string]interface{}{
-		"query": pubsignals.Query{
-			AllowedIssuers: []string{"*"},
-			Req: map[string]interface{}{
-				"dateOfBirth": map[string]interface{}{
-					"$lt": 20000101,
-				},
-			},
-			Schema: protocol.Schema{
-				URL:  "https://s3.eu-west-1.amazonaws.com/polygonid-schemas/9b1c05f4-7fb6-4792-abe3-d1ddbd9a9609.json-ld",
-				Type: "AgeCredential",
+	mtpProofRequest.CircuitID = string(circuits.circuits.AtomicQueryMTPV2CircuitID)
+	mtpProofRequest.Query = map[string]interface{}{
+		"allowedIssuers": []string{"*"},
+		"credentialSubject": map[string]interface{}{
+			"birthday": map[string]interface{}{
+				"$lt": 20000101,
 			},
 		},
+		"context": "https://raw.githubusercontent.com/iden3/claim-schema-vocab/main/schemas/json-ld/kyc-v3.json-ld",
+		"type":    "KYCAgeCredential",
 	}
 
 	request.Body.Scope = append(request.Body.Scope, mtpProofRequest)
@@ -91,7 +86,7 @@ func Callback(w http.ResponseWriter, r *http.Request) {
 	ethURL := "<RPCNODEURL>"
 
 	// Add identity state contract address
-	contractAddress := "0x46Fd04eEa588a3EA7e9F055dd691C688c4148ab3"
+	contractAddress := "0xEA9aF2088B4a9770fC32A12fD42E61BDD317E655"
 
 	// Locate the directory that contains circuit's verification keys
 	keyDIR := "../keys"
@@ -111,8 +106,11 @@ func Callback(w http.ResponseWriter, r *http.Request) {
 
 	// EXECUTE VERIFICATION
 	verifier := auth.NewVerifier(verificationKeyloader, loaders.DefaultSchemaLoader{IpfsURL: "ipfs.io"}, resolver)
-	authResponse, err := verifier.FullVerify(r.Context(), string(tokenBytes),
-		authRequest.(protocol.AuthorizationRequestMessage))
+	authResponse, err := verifier.FullVerify(
+		r.Context(),
+		string(tokenBytes),
+		authRequest.(protocol.AuthorizationRequestMessage),
+		pubsignals.WithAcceptedStateTransitionDelay(time.Minute*5)) // Set the accepted delay to 5 minutes. It means that the user can provide a proof against a state that is not the latest, but it is not older than 5 minutes.
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
