@@ -30,7 +30,7 @@ var requestMap = make(map[string]interface{})
 func GetAuthRequest(w http.ResponseWriter, r *http.Request) {
 
 	// Audience is verifier id
-	rURL := "<YOUR REMOTE NGROK HOST>"
+	rURL := "https://d6cb-139-47-43-181.eu.ngrok.io"
 	sessionID := 1
 	CallbackURL := "/api/callback"
 	Audience := "1125GJqgw6YEsKFwj63GY87MMxPL9kwDKxPUiwMLNZ"
@@ -46,7 +46,7 @@ func GetAuthRequest(w http.ResponseWriter, r *http.Request) {
 	// Add request for a specific proof
 	var mtpProofRequest protocol.ZeroKnowledgeProofRequest
 	mtpProofRequest.ID = 1
-	mtpProofRequest.CircuitID = string(circuits.AtomicQueryMTPV2CircuitID)
+	mtpProofRequest.CircuitID = string(circuits.AtomicQuerySigV2CircuitID)
 	mtpProofRequest.Query = map[string]interface{}{
 		"allowedIssuers": []string{"*"},
 		"credentialSubject": map[string]interface{}{
@@ -84,7 +84,7 @@ func Callback(w http.ResponseWriter, r *http.Request) {
 	tokenBytes, _ := io.ReadAll(r.Body)
 
 	// Add Polygon Mumbai RPC node endpoint - needed to read on-chain state
-	ethURL := "<RPCNODEURL>"
+	ethURL := "https://polygon-mumbai.infura.io/v3/155cf09985804b578a513a4dfbefbe04"
 
 	// Add identity state contract address
 	contractAddress := "0xEA9aF2088B4a9770fC32A12fD42E61BDD317E655"
