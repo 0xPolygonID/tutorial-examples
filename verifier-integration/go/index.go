@@ -8,8 +8,11 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/ethereum/go-ethereum/common"
+	"github.com/iden3/go-circuits"
 	auth "github.com/iden3/go-iden3-auth"
 	"github.com/iden3/go-iden3-auth/loaders"
+	"github.com/iden3/go-iden3-auth/pubsignals"
 	"github.com/iden3/go-iden3-auth/state"
 	"github.com/iden3/iden3comm/protocol"
 )
@@ -45,7 +48,7 @@ func GetAuthRequest(w http.ResponseWriter, r *http.Request) {
 	// Add request for a specific proof
 	var mtpProofRequest protocol.ZeroKnowledgeProofRequest
 	mtpProofRequest.ID = 1
-	mtpProofRequest.CircuitID = string(circuits.circuits.AtomicQueryMTPV2CircuitID)
+	mtpProofRequest.CircuitID = string(circuits.AtomicQueryMTPV2CircuitID)
 	mtpProofRequest.Query = map[string]interface{}{
 		"allowedIssuers": []string{"*"},
 		"credentialSubject": map[string]interface{}{
@@ -100,8 +103,8 @@ func Callback(w http.ResponseWriter, r *http.Request) {
 	// load the verifcation key
 	var verificationKeyloader = &loaders.FSKeyLoader{Dir: keyDIR}
 	resolver := state.ETHResolver{
-		RPCUrl:   ethURL,
-		Contract: contractAddress,
+		RPCUrl:          ethURL,
+		ContractAddress: common.HexToAddress(contractAddress),
 	}
 
 	// EXECUTE VERIFICATION
