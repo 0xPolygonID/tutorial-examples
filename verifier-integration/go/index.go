@@ -91,6 +91,8 @@ func Callback(w http.ResponseWriter, r *http.Request) {
 	// Add identity state contract address
 	contractAddress := "0xEA9aF2088B4a9770fC32A12fD42E61BDD317E655"
 
+	resolverPrefix := "polygon:mumbai"
+
 	// Locate the directory that contains circuit's verification keys
 	keyDIR := "../keys"
 
@@ -107,8 +109,12 @@ func Callback(w http.ResponseWriter, r *http.Request) {
 		ContractAddress: common.HexToAddress(contractAddress),
 	}
 
+	resolvers := map[string]pubsignals.StateResolver{
+		resolverPrefix: resolver,
+	}
+
 	// EXECUTE VERIFICATION
-	verifier := auth.NewVerifier(verificationKeyloader, loaders.DefaultSchemaLoader{IpfsURL: "ipfs.io"}, resolver)
+	verifier := auth.NewVerifier(verificationKeyloader, loaders.DefaultSchemaLoader{IpfsURL: "ipfs.io"}, resolvers)
 	authResponse, err := verifier.FullVerify(
 		r.Context(),
 		string(tokenBytes),
