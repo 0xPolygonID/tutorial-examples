@@ -5,30 +5,31 @@ go 1.17
 require (
 	github.com/StackExchange/wmi v0.0.0-20180116203802-5d049714c4a6 // indirect
 	github.com/btcsuite/btcd v0.22.0-beta // indirect
-	github.com/btcsuite/btcd/btcec/v2 v2.1.2 // indirect
+	github.com/btcsuite/btcd/btcec/v2 v2.2.0 // indirect
 	github.com/crackcomm/go-gitignore v0.0.0-20170627025303-887ab5e44cc3 // indirect
 	github.com/dchest/blake512 v1.0.0 // indirect
 	github.com/deckarep/golang-set v1.8.0 // indirect
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.0.1 // indirect
-	github.com/ethereum/go-ethereum v1.10.17 // indirect
+	github.com/ethereum/go-ethereum v1.10.26 // indirect
 	github.com/go-ole/go-ole v1.2.1 // indirect
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/gogo/protobuf v1.3.1 // indirect
 	github.com/google/uuid v1.2.0 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect
-	github.com/iden3/go-circuits v0.0.42 // indirect
+	github.com/iden3/go-circuits v1.0.1-alpha.2.0.20230125203117-dc8c68c06da2 // indirect
 	github.com/iden3/go-iden3-auth v0.0.22 // indirect
-	github.com/iden3/go-iden3-core v0.0.18 // indirect
+	github.com/iden3/go-iden3-core v0.1.1-0.20221219095955-92aedd7d12fa // indirect
 	github.com/iden3/go-iden3-crypto v0.0.13 // indirect
-	github.com/iden3/go-jwz v0.0.1 // indirect
+	github.com/iden3/go-jwz v0.1.3 // indirect
 	github.com/iden3/go-merkletree-sql v1.0.1 // indirect
-	github.com/iden3/go-rapidsnark/prover v0.0.1 // indirect
+	github.com/iden3/go-merkletree-sql/v2 v2.0.0 // indirect
+	github.com/iden3/go-rapidsnark/prover v0.0.5 // indirect
 	github.com/iden3/go-rapidsnark/types v0.0.1 // indirect
-	github.com/iden3/go-rapidsnark/verifier v0.0.1 // indirect
+	github.com/iden3/go-rapidsnark/verifier v0.0.2 // indirect
 	github.com/iden3/go-rapidsnark/witness v0.0.1 // indirect
-	github.com/iden3/go-schema-processor v0.0.22 // indirect
+	github.com/iden3/go-schema-processor v0.2.0 // indirect
 	github.com/iden3/go-schema-registry-wrapper v0.0.7 // indirect
-	github.com/iden3/iden3comm v0.0.0-20220601134535-a1897f21ab6e // indirect
+	github.com/iden3/iden3comm v0.1.2 // indirect
 	github.com/ipfs/go-cid v0.0.7 // indirect
 	github.com/ipfs/go-ipfs-api v0.3.0 // indirect
 	github.com/ipfs/go-ipfs-files v0.0.9 // indirect
