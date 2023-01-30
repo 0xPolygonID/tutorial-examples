@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -26,19 +27,18 @@ func main() {
 // Create a map to store the auth requests and their session IDs
 var requestMap = make(map[string]interface{})
 
-// GetQR returns auth request
 func GetAuthRequest(w http.ResponseWriter, r *http.Request) {
 
 	// Audience is verifier id
 	rURL := "https://d6cb-139-47-43-181.eu.ngrok.io"
 	sessionID := 1
 	CallbackURL := "/api/callback"
-	Audience := "1125GJqgw6YEsKFwj63GY87MMxPL9kwDKxPUiwMLNZ"
+	Audience := "did:polygonid:polygon:mumbai:2qDyy1kEo2AYcP3RT4XGea7BtxsY285szg6yP9SPrs"
 
 	uri := fmt.Sprintf("%s%s?sessionId=%s", rURL, CallbackURL, strconv.Itoa(sessionID))
 
 	// Generate request for basic authentication
-	var request protocol.AuthorizationRequestMessage = auth.CreateAuthorizationRequestWithMessage("test flow", "message to sign", Audience, uri)
+	var request protocol.AuthorizationRequestMessage = auth.CreateAuthorizationRequest("test flow", Audience, uri)
 
 	request.ID = "7f38a193-0918-4a48-9fac-36adfdb8b542"
 	request.ThreadID = "7f38a193-0918-4a48-9fac-36adfdb8b542"
@@ -57,7 +57,6 @@ func GetAuthRequest(w http.ResponseWriter, r *http.Request) {
 		"context": "https://raw.githubusercontent.com/iden3/claim-schema-vocab/main/schemas/json-ld/kyc-v3.json-ld",
 		"type":    "KYCAgeCredential",
 	}
-
 	request.Body.Scope = append(request.Body.Scope, mtpProofRequest)
 
 	// Store auth request in map associated with session ID
@@ -84,7 +83,7 @@ func Callback(w http.ResponseWriter, r *http.Request) {
 	tokenBytes, _ := io.ReadAll(r.Body)
 
 	// Add Polygon Mumbai RPC node endpoint - needed to read on-chain state
-	ethURL := "https://polygon-mumbai.infura.io/v3/155cf09985804b578a513a4dfbefbe04"
+	ethURL := "https://polygon-testnet-rpc.allthatnode.com:8545"
 
 	// Add identity state contract address
 	contractAddress := "0xEA9aF2088B4a9770fC32A12fD42E61BDD317E655"
@@ -117,8 +116,9 @@ func Callback(w http.ResponseWriter, r *http.Request) {
 		r.Context(),
 		string(tokenBytes),
 		authRequest.(protocol.AuthorizationRequestMessage),
-		pubsignals.WithAcceptedStateTransitionDelay(time.Minute*5)) // Set the accepted delay to 5 minutes. It means that the user can provide a proof against a state that is not the latest, but it is not older than 5 minutes.
+		pubsignals.WithAcceptedStateTransitionDelay(time.Minute*5))
 	if err != nil {
+		log.Println(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
