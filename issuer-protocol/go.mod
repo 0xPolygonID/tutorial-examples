@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/dchest/blake512 v1.0.0 // indirect
-	github.com/iden3/go-circuits v1.0.1-alpha.2.0.20230206142346-8f04f523e690 // indirect
+	github.com/iden3/go-circuits v1.0.2 // indirect
 	github.com/iden3/go-iden3-core v1.0.0 // indirect
 	github.com/iden3/go-iden3-crypto v0.0.13 // indirect
 	github.com/iden3/go-merkletree-sql/v2 v2.0.0 // indirect
