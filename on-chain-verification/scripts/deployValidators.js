@@ -9,11 +9,11 @@ async function main() {
     const stateAddress = "0x134B1BE34911E39A8397ec6289782989729807a4";
     const validators = [
         {
-            verifierAddress: "0xEC46A8949b63378D87cEDD3e31256E307CA41E09",
+            verifierAddress: "0x357Bb671fEb5577d310410eab93291B4De04a834",
             validatorContractName: "CredentialAtomicQueryMTPValidator",
         },
         {
-            verifierAddress: "0x5cD34FD854b3Ac0dB3C62bfe6fE04C8DCf0F4310",
+            verifierAddress: "0xf635aCA4E8B5268aA9Bf8E226907C27383fC9686",
             validatorContractName: "CredentialAtomicQuerySigValidator",
         },
     ];

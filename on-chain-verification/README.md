@@ -53,13 +53,13 @@ This tutorial uses [Hardhat](https://hardhat.org/) as a development environment 
 ## current pre-deployed contracts
 
 
-**mtp verifier address** - 0xEC46A8949b63378D87cEDD3e31256E307CA41E09
+**mtp verifier address** - 0x357Bb671fEb5577d310410eab93291B4De04a834
 
-**sig verifier address** - 0x5cD34FD854b3Ac0dB3C62bfe6fE04C8DCf0F4310
+**sig verifier address** - 0xf635aCA4E8B5268aA9Bf8E226907C27383fC9686
 
-**default mtp validator** - 0xB39B28F7157BC428F2A0Da375f584c3a1ede9121
+**default mtp validator** - 0x3DcAe4c8d94359D31e4C89D7F2b944859408C618
 
-**default sig validator** - 0xC8334388DbCe2F73De2354e7392EA326011515b8
+**default sig validator** - 0xF2D4Eeb4d455fb673104902282Ce68B9ce4Ac450
 
 **default state address** - 0x134B1BE34911E39A8397ec6289782989729807a4
 
