@@ -10,8 +10,7 @@ This tutorial uses [Hardhat](https://hardhat.org/) as a development environment 
 
 2. Open the app and set a pin for security
 
-3. Follow the [Issue a Polygon ID claim](https://polygontechnology.notion.site/Issue-yourself-a-KYC-Age-Credential-claim-a06a6fe048c34115a3d22d7d1ea315ea) doc to issue yourself a KYC Age Credential attesting your date of birth.
-
+3. Issue yourself a Credential of type `Kyc Age Credential Merklized` from the [Polygon ID Issuer Sandbox](https://issuer-v2.polygonid.me/)
 
 ## Instructions to compile and deploy the smart contract
 
@@ -38,11 +37,10 @@ This tutorial uses [Hardhat](https://hardhat.org/) as a development environment 
 
 ## Claim airdrop from a frontend
 
-1. Design a proof request (see my example in qrValueProofRequestExample.json) and more info in the docs: [Query Based Requests](https://0xpolygonid.github.io/tutorials/wallet/proof-generation/types-of-auth-requests-and-proofs/#query-based-request)
+1. Design a proof request (see my example in qrValueProofRequestExample.json)
     - Update the `contract_address` field to your deployed contract address
 
-2. Create a frontend with a QR code to the proof request. [Codesandbox example](https://codesandbox.io/s/zisu81?file=/index.js) A user should be able to scan the QR code from the Polygon ID app and trustlessly prove that they are old enough to claim the ERC20 airdrop without revealing their actual birthday.
-
+2. Create a frontend that renders the proof request in json format into a QR code. [Codesandbox example](https://codesandbox.io/s/zisu81?file=/index.js) A user should be able to scan the QR code from the Polygon ID app and trustlessly prove that they are old enough to claim the ERC20 airdrop without revealing their actual birthday.
 
 ## Deploy custom validators
 

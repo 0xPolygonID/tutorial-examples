@@ -20,7 +20,7 @@ async function main() {
   );
 
   await erc20Verifier.deployed();
-  console.log(verifierName, " tx hash:", erc20Verifier.address);
+  console.log(verifierName, " contract address:", erc20Verifier.address);
 }
 main()
   .then(() => process.exit(0))
