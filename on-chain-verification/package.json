@@ -12,6 +12,8 @@
   "dependencies": {
     "@nomiclabs/hardhat-waffle": "^2.0.3",
     "@openzeppelin/contracts": "^4.7.3",
+    "@openzeppelin/contracts-upgradeable": "^4.7.3",
+    "@openzeppelin/hardhat-upgrades": "^1.22.1",
     "dotenv": "^16.0.2",
     "solidity-bytes-utils": "^0.8.0"
   },

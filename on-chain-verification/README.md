@@ -41,4 +41,30 @@ This tutorial uses [Hardhat](https://hardhat.org/) as a development environment 
 1. Design a proof request (see my example in qrValueProofRequestExample.json) and more info in the docs: [Query Based Requests](https://0xpolygonid.github.io/tutorials/wallet/proof-generation/types-of-auth-requests-and-proofs/#query-based-request)
     - Update the `contract_address` field to your deployed contract address
 
-2. Create a frontend with a QR code to the proof request. [Codesandbox example](https://codesandbox.io/s/zisu81?file=/index.js) A user should be able to scan the QR code from the Polygon ID app and trustlessly prove that they are old enough to claim the ERC20 airdrop without revealing their actual birthday. 
+2. Create a frontend with a QR code to the proof request. [Codesandbox example](https://codesandbox.io/s/zisu81?file=/index.js) A user should be able to scan the QR code from the Polygon ID app and trustlessly prove that they are old enough to claim the ERC20 airdrop without revealing their actual birthday.
+
+
+## Deploy custom validators
+
+1. Find the examples of deployed validators in the `./contracts/lib/validators` folder. You can modify based on your verification logic.
+
+2. To deploy run `deployValidators`  `npx hardhat run --network mumbai scripts/deployValidators.js`
+
+## current pre-deployed contracts
+
+
+**mtp verifier address** - 0xEC46A8949b63378D87cEDD3e31256E307CA41E09
+
+**sig verifier address** - 0x5cD34FD854b3Ac0dB3C62bfe6fE04C8DCf0F4310
+
+**default mtp validator** - 0xB39B28F7157BC428F2A0Da375f584c3a1ede9121
+
+**default sig validator** - 0xC8334388DbCe2F73De2354e7392EA326011515b8
+
+**default state address** - 0x134B1BE34911E39A8397ec6289782989729807a4
+
+**poseidon6 library** - 0xb588b8f07012Dc958aa90EFc7d3CF943057F17d7
+
+**spongeHash library** - 0x12d8C87A61dAa6DD31d8196187cFa37d1C647153
+
+
