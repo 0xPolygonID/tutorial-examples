@@ -30,7 +30,7 @@ var requestMap = make(map[string]interface{})
 func GetAuthRequest(w http.ResponseWriter, r *http.Request) {
 
 	// Audience is verifier id
-	rURL := "NGROK URL AT PORT 8080"
+	rURL := "https://ebc4-2a0d-3344-20e8-f510-dcf-eb77-3af6-7c6c.eu.ngrok.io"
 	sessionID := 1
 	CallbackURL := "/api/callback"
 	Audience := "did:polygonid:polygon:mumbai:2qDyy1kEo2AYcP3RT4XGea7BtxsY285szg6yP9SPrs"
@@ -86,7 +86,7 @@ func Callback(w http.ResponseWriter, r *http.Request) {
 	ethURL := "https://polygon-testnet-rpc.allthatnode.com:8545"
 
 	// Add identity state contract address
-	contractAddress := "0xEA9aF2088B4a9770fC32A12fD42E61BDD317E655"
+	contractAddress := "0x134B1BE34911E39A8397ec6289782989729807a4"
 
 	resolverPrefix := "polygon:mumbai"
 

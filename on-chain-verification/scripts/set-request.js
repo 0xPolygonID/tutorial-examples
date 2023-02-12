@@ -11,15 +11,15 @@ const Operators = {
 
 async function main() {
 
-
   // you can run https://go.dev/play/p/rnrRbxXTRY6 to get schema hash and claimPathKey using YOUR schema
   const schemaBigInt = "74977327600848231385663280181476307657"
 
    // merklized path to field in the W3C credential according to JSONLD  schema e.g. birthday in the KYCAgeCredential under the url "https://raw.githubusercontent.com/iden3/claim-schema-vocab/main/schemas/json-ld/kyc-v3.json-ld"
   const schemaClaimPathKey = "20376033832371109177683048456014525905119173674985843915445634726167450989630"
 
+  const requestId = 1;
+
   const query = {
-    requestId: 1,
     schema: schemaBigInt,
     claimPathKey  : schemaClaimPathKey,
     operator: Operators.LT, // operator
@@ -27,7 +27,11 @@ async function main() {
     };
 
   // add the address of the contract just deployed
+<<<<<<< Updated upstream
   const ERC20VerifierAddress = "0x584dC68657bD3663940f851DB26aEA8e1eFe126F"
+=======
+  const ERC20VerifierAddress = "0x97C10509ea31540950572469764eE9Ef878B8D0F"
+>>>>>>> Stashed changes
 
   let erc20Verifier = await hre.ethers.getContractAt("ERC20Verifier", ERC20VerifierAddress)
 
@@ -37,7 +41,7 @@ async function main() {
 
   try {
     await erc20Verifier.setZKPRequest(
-        query.requestId,
+        requestId,
         validatorAddress,
         query.schema,
         query.claimPathKey,
