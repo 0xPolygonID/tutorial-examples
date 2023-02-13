@@ -27,11 +27,7 @@ async function main() {
     };
 
   // add the address of the contract just deployed
-<<<<<<< Updated upstream
-  const ERC20VerifierAddress = "0x584dC68657bD3663940f851DB26aEA8e1eFe126F"
-=======
-  const ERC20VerifierAddress = "0x97C10509ea31540950572469764eE9Ef878B8D0F"
->>>>>>> Stashed changes
+  const ERC20VerifierAddress = "0x1C30DC7674e5Fd4f6154152E018b92ff29E66B41"
 
   let erc20Verifier = await hre.ethers.getContractAt("ERC20Verifier", ERC20VerifierAddress)
 
