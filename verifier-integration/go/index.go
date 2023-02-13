@@ -30,7 +30,7 @@ var requestMap = make(map[string]interface{})
 func GetAuthRequest(w http.ResponseWriter, r *http.Request) {
 
 	// Audience is verifier id
-	rURL := "https://ebc4-2a0d-3344-20e8-f510-dcf-eb77-3af6-7c6c.eu.ngrok.io"
+	rURL := "https://ca9b-139-47-43-181.eu.ngrok.io"
 	sessionID := 1
 	CallbackURL := "/api/callback"
 	Audience := "did:polygonid:polygon:mumbai:2qDyy1kEo2AYcP3RT4XGea7BtxsY285szg6yP9SPrs"
