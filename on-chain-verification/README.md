@@ -10,8 +10,7 @@ This tutorial uses [Hardhat](https://hardhat.org/) as a development environment 
 
 2. Open the app and set a pin for security
 
-3. Follow the [Issue a Polygon ID claim](https://polygontechnology.notion.site/Issue-yourself-a-KYC-Age-Credential-claim-a06a6fe048c34115a3d22d7d1ea315ea) doc to issue yourself a KYC Age Credential attesting your date of birth.
-
+3. Issue yourself a Credential of type `Kyc Age Credential Merklized` from the [Polygon ID Issuer Sandbox](https://issuer-v2.polygonid.me/)
 
 ## Instructions to compile and deploy the smart contract
 
@@ -38,7 +37,32 @@ This tutorial uses [Hardhat](https://hardhat.org/) as a development environment 
 
 ## Claim airdrop from a frontend
 
-1. Design a proof request (see my example in qrValueProofRequestExample.json) and more info in the docs: [Query Based Requests](https://0xpolygonid.github.io/tutorials/wallet/proof-generation/types-of-auth-requests-and-proofs/#query-based-request)
+1. Design a proof request (see my example in qrValueProofRequestExample.json)
     - Update the `contract_address` field to your deployed contract address
 
-2. Create a frontend with a QR code to the proof request. [Codesandbox example](https://codesandbox.io/s/zisu81?file=/index.js) A user should be able to scan the QR code from the Polygon ID app and trustlessly prove that they are old enough to claim the ERC20 airdrop without revealing their actual birthday. 
+2. Create a frontend that renders the proof request in json format into a QR code. [Codesandbox example](https://codesandbox.io/s/zisu81?file=/index.js) A user should be able to scan the QR code from the Polygon ID app and trustlessly prove that they are old enough to claim the ERC20 airdrop without revealing their actual birthday.
+
+## Deploy custom validators
+
+1. Find the examples of deployed validators in the `./contracts/lib/validators` folder. You can modify based on your verification logic.
+
+2. To deploy run `deployValidators`  `npx hardhat run --network mumbai scripts/deployValidators.js`
+
+## current pre-deployed contracts
+
+
+**mtp verifier address** - 0x357Bb671fEb5577d310410eab93291B4De04a834
+
+**sig verifier address** - 0xf635aCA4E8B5268aA9Bf8E226907C27383fC9686
+
+**default mtp validator** - 0x3DcAe4c8d94359D31e4C89D7F2b944859408C618
+
+**default sig validator** - 0xF2D4Eeb4d455fb673104902282Ce68B9ce4Ac450
+
+**default state address** - 0x134B1BE34911E39A8397ec6289782989729807a4
+
+**poseidon6 library** - 0xb588b8f07012Dc958aa90EFc7d3CF943057F17d7
+
+**spongeHash library** - 0x12d8C87A61dAa6DD31d8196187cFa37d1C647153
+
+

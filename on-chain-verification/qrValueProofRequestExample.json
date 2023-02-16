@@ -1,32 +1,33 @@
-{  
-    "id":"c811849d-6bfb-4d85-936e-3d9759c7f105",
-    "typ":"application/iden3comm-plain-json",
-    "type":"https://iden3-communication.io/proofs/1.0/contract-invoke-request",
-    "body":{
-        "transaction_data":{
-            "contract_address":"0x31E9dD4c5DD72ad0eb8260C2b32BEa67Fad63F3b", 
-            "method_id":"b68967e2",
-            "chain_id":80001,
-            "network":"polygon-mumbai"
-            },
-        "reason":"airdrop participation",
-        "scope":[{
-            "id":1,
-            "circuit_id":"credentialAtomicQuerySig",
-            "rules":{
-                "query":{
-                    "allowed_issuers":["*"],
-                    "req":{ 
-                        "dateOfBirth":{
-                            "$lt":20020101
-                            }
-                        },
-                    "schema":{
-                            "url":"https://s3.eu-west-1.amazonaws.com/polygonid-schemas/9b1c05f4-7fb6-4792-abe3-d1ddbd9a9609.json-ld", 
-                            "type":"AgeCredential" 
-                            }
+{
+    "id": "7f38a193-0918-4a48-9fac-36adfdb8b542",
+    "typ": "application/iden3comm-plain-json",
+    "type": "https://iden3-communication.io/proofs/1.0/contract-invoke-request",
+    "thid": "7f38a193-0918-4a48-9fac-36adfdb8b542",
+    "body": {
+        "reason": "airdrop participation",
+        "transaction_data": {
+            "contract_address": "0x1C30DC7674e5Fd4f6154152E018b92ff29E66B41",
+            "method_id": "b68967e2",
+            "chain_id": 80001,
+            "network": "polygon-mumbai"
+        },
+        "scope": [
+            {
+                "id": 1,
+                "circuitId": "credentialAtomicQuerySigV2OnChain",
+                "query": {
+                    "allowedIssuers": [
+                        "*"
+                    ],
+                    "context": "https://raw.githubusercontent.com/iden3/claim-schema-vocab/main/schemas/json-ld/kyc-v3.json-ld",
+                    "credentialSubject": {
+                        "birthday": {
+                            "$lt": 20020101
                         }
-                    }
-                }]
+                    },
+                    "type": "KYCAgeCredential"
+                }
             }
+        ]
+    }
 }

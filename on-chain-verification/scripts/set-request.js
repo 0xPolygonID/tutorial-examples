@@ -1,52 +1,53 @@
+
+const Operators = {
+  NOOP : 0, // No operation, skip query verification in circuit
+  EQ : 1, // equal
+  LT : 2, // less than
+  GT : 3, // greater than
+  IN : 4, // in
+  NIN : 5, // not in
+  NE : 6   // not equal
+}
+
 async function main() {
 
-  const circuitId = "credentialAtomicQuerySig";
-  const validatorAddress = "0xb1e86C4c687B85520eF4fd2a0d14e81970a15aFB";
+  // you can run https://go.dev/play/p/rnrRbxXTRY6 to get schema hash and claimPathKey using YOUR schema
+  const schemaBigInt = "74977327600848231385663280181476307657"
 
-  const schemaHash = "f03ac39aa54a5a2770a30f17d8042507" // extracted from PID Platform
+   // merklized path to field in the W3C credential according to JSONLD  schema e.g. birthday in the KYCAgeCredential under the url "https://raw.githubusercontent.com/iden3/claim-schema-vocab/main/schemas/json-ld/kyc-v3.json-ld"
+  const schemaClaimPathKey = "20376033832371109177683048456014525905119173674985843915445634726167450989630"
 
-  const schemaEnd = fromLittleEndian(hexToBytes(schemaHash))
+  const requestId = 1;
 
   const query = {
-    schema: ethers.BigNumber.from(schemaEnd),
-    slotIndex: 2,
-    operator: 2,
-    value: [20020101, ...new Array(63).fill(0).map(i => 0)],
-    circuitId,
+    schema: schemaBigInt,
+    claimPathKey  : schemaClaimPathKey,
+    operator: Operators.LT, // operator
+    value: [20020101, ...new Array(63).fill(0).map(i => 0)], // for operators 1-3 only first value matters
     };
 
   // add the address of the contract just deployed
-  ERC20VerifierAddress = "0x31E9dD4c5DD72ad0eb8260C2b32BEa67Fad63F3b"
+  const ERC20VerifierAddress = "0x1C30DC7674e5Fd4f6154152E018b92ff29E66B41"
 
   let erc20Verifier = await hre.ethers.getContractAt("ERC20Verifier", ERC20VerifierAddress)
 
+
+  const validatorAddress = "0xF2D4Eeb4d455fb673104902282Ce68B9ce4Ac450"; // sig validator
+  // const validatorAddress = "0x3DcAe4c8d94359D31e4C89D7F2b944859408C618"; // mtp validator
+
   try {
     await erc20Verifier.setZKPRequest(
-      1,
-      validatorAddress,
-      query
+        requestId,
+        validatorAddress,
+        query.schema,
+        query.claimPathKey,
+        query.operator,
+        query.value
     );
     console.log("Request set");
   } catch (e) {
     console.log("error: ", e);
   }
-}
-
-function hexToBytes(hex) {
-  for (var bytes = [], c = 0; c < hex.length; c += 2)
-      bytes.push(parseInt(hex.substr(c, 2), 16));
-  return bytes;
-}
-
-function fromLittleEndian(bytes) {
-  const n256 = BigInt(256);
-  let result = BigInt(0);
-  let base = BigInt(1);
-  bytes.forEach((byte) => {
-    result += base * BigInt(byte);
-    base = base * n256;
-  });
-  return result;
 }
 
 main()
