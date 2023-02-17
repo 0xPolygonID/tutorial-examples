@@ -3,8 +3,8 @@
     "type": "object",
     "$metadata": {
       "uris": {
-        "jsonLdContext": "https://ede9-2001-818-d8bf-6400-54ac-1d59-9f0f-4c9c.ngrok.io/myage.json-ld",
-        "jsonSchema": "https://ede9-2001-818-d8bf-6400-54ac-1d59-9f0f-4c9c.ngrok.io/myage.json"
+        "jsonLdContext": "https://raw.githubusercontent.com/0xPolygonID/tutorial-examples/main/credential-schema/proof-of-dao-longevity.json-ld",
+        "jsonSchema": "https://raw.githubusercontent.com/0xPolygonID/tutorial-examples/main/credential-schema/proof-of-dao-longevity.json"
       }
     },
     "required": [
