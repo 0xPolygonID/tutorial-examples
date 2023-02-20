@@ -28,17 +28,16 @@ const requestMap = new Map();
 		async function GetAuthRequest(req,res) {
 
 			// Audience is verifier id
-			const hostUrl = "<NGROK URL>";
+			const hostUrl = "<NGROK_URL>";
 			const sessionId = 1;
 			const callbackURL = "/api/callback"
-			const audience = "1125GJqgw6YEsKFwj63GY87MMxPL9kwDKxPUiwMLNZ"
+			const audience = "did:polygonid:polygon:mumbai:2qDyy1kEo2AYcP3RT4XGea7BtxsY285szg6yP9SPrs"
 
 			const uri = `${hostUrl}${callbackURL}?sessionId=${sessionId}`;
 
 			// Generate request for basic authentication
-			const request = auth.createAuthorizationRequestWithMessage(
+			const request = auth.createAuthorizationRequest(
 				'test flow',
-				'message to sign',
 				audience,
 				uri,
 			);
@@ -49,26 +48,21 @@ const requestMap = new Map();
 			// Add request for a specific proof
 			const proofRequest = {
 				id: 1,
-				circuit_id: 'credentialAtomicQuerySig',
-				rules: {
-					query: {
-					allowedIssuers: ['*'],
-					schema: {
-						type: 'AgeCredential',
-						url: 'https://s3.eu-west-1.amazonaws.com/polygonid-schemas/9b1c05f4-7fb6-4792-abe3-d1ddbd9a9609.json-ld',
+				circuitId: 'credentialAtomicQuerySigV2',
+				query: {
+				  allowedIssuers: ['*'],
+				  type: 'KYCAgeCredential',
+				  context: 'https://raw.githubusercontent.com/iden3/claim-schema-vocab/main/schemas/json-ld/kyc-v3.json-ld',
+				  credentialSubject: {
+					birthday: {
+					  $lt: 20000101,
 					},
-					req: {
-						dateOfBirth: {
-						$lt: 20000101, // bithDay field less then 2000/01/01
-						},
-					},
-					},
-				},
-				};
-
+				  },
+			  },
+			  };
 			const scope = request.body.scope ?? [];
 			request.body.scope = [...scope, proofRequest];
-
+			 
 			// Store auth request in map associated with session ID
 			requestMap.set(`${sessionId}`, request);
 
@@ -85,6 +79,19 @@ const requestMap = new Map();
 			const raw = await getRawBody(req);
 			const tokenStr = raw.toString().trim();
 
+			const ethUrl = '<MUMBAI_RPC_URL>';
+			const contractAddress = "0x134B1BE34911E39A8397ec6289782989729807a4"
+
+			const ethStateResolver = new resolver.EthStateResolver(
+				ethUrl,
+				contractAddress,
+			  );
+
+			const resolvers = {
+				['polygon:mumbai']: ethStateResolver,
+			};
+							 
+
 			// fetch authRequest from sessionID
 			const authRequest = requestMap.get(`${sessionId}`);
 				
@@ -92,14 +99,12 @@ const requestMap = new Map();
 			const verificationKeyloader = new loaders.FSKeyLoader('../keys');
 			const sLoader = new loaders.UniversalSchemaLoader('ipfs.io');
 
-			// Add Polygon Mumbai RPC node endpoint - needed to read on-chain state and identity state contract address
-			const ethStateResolver = new resolver.EthStateResolver('<Polygon Mumbai RPC NODE>', '0x46Fd04eEa588a3EA7e9F055dd691C688c4148ab3');
-
 			// EXECUTE VERIFICATION
 			const verifier = new auth.Verifier(
 			verificationKeyloader,
-			sLoader, ethStateResolver,
-		);
+			sLoader,
+			resolvers,
+			);
 
 
 		try {

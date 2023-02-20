@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@iden3/js-iden3-auth": "^0.1.4",
-    "tslib": "^2.4.0"
+    "@iden3/js-iden3-auth": "^1.0.0-beta.1",
+    "express": "^4.18.2"
   }
 }

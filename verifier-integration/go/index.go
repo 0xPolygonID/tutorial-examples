@@ -30,7 +30,7 @@ var requestMap = make(map[string]interface{})
 func GetAuthRequest(w http.ResponseWriter, r *http.Request) {
 
 	// Audience is verifier id
-	rURL := "NGROK URL"
+	rURL := "<NGROK_URL>"
 	sessionID := 1
 	CallbackURL := "/api/callback"
 	Audience := "did:polygonid:polygon:mumbai:2qDyy1kEo2AYcP3RT4XGea7BtxsY285szg6yP9SPrs"
@@ -83,7 +83,7 @@ func Callback(w http.ResponseWriter, r *http.Request) {
 	tokenBytes, _ := io.ReadAll(r.Body)
 
 	// Add Polygon Mumbai RPC node endpoint - needed to read on-chain state
-	ethURL := "https://polygon-testnet-rpc.allthatnode.com:8545"
+	ethURL := "MUMBAI_RPC_URL"
 
 	// Add identity state contract address
 	contractAddress := "0x134B1BE34911E39A8397ec6289782989729807a4"
