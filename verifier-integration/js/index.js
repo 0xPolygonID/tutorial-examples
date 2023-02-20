@@ -79,11 +79,12 @@ const requestMap = new Map();
 			const raw = await getRawBody(req);
 			const tokenStr = raw.toString().trim();
 
-			const ethUrl = '<MUMBAI_RPC_URL>';
+			const ethURL = '<MUMBAI_RPC_URL>';
 			const contractAddress = "0x134B1BE34911E39A8397ec6289782989729807a4"
+			const keyDIR = "../keys"
 
 			const ethStateResolver = new resolver.EthStateResolver(
-				ethUrl,
+				ethURL,
 				contractAddress,
 			  );
 
@@ -96,7 +97,7 @@ const requestMap = new Map();
 			const authRequest = requestMap.get(`${sessionId}`);
 				
 			// Locate the directory that contains circuit's verification keys
-			const verificationKeyloader = new loaders.FSKeyLoader('../keys');
+			const verificationKeyloader = new loaders.FSKeyLoader(keyDIR);
 			const sLoader = new loaders.UniversalSchemaLoader('ipfs.io');
 
 			// EXECUTE VERIFICATION
