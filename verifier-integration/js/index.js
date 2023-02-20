@@ -109,7 +109,10 @@ const requestMap = new Map();
 
 
 		try {
-			authResponse = await verifier.fullVerify(tokenStr, authRequest);
+			const opts = {
+				AcceptedStateTransitionDelay: 5 * 60 * 1000, // 5 minute
+			  };		
+			authResponse = await verifier.fullVerify(tokenStr, authRequest, opts);
 		} catch (error) {
 		return res.status(500).send(error);
 		}
