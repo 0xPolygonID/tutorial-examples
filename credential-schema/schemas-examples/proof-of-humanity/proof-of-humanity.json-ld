@@ -12,7 +12,7 @@
           "@protected": true,
           "id": "@id",
           "type": "@type",
-          "vocab": "https://raw.githubusercontent.com/0xPolygonID/tutorial-examples/main/credential-schema/schemas-examples/proof-of-humanity/proof-of-humanity-vocab.md#",
+          "vocab": "https://github.com/0xPolygonID/tutorial-examples/blob/main/credential-schema/schemas-examples/proof-of-humanity/proof-of-humanity-vocab.md#",
           "xsd": "http://www.w3.org/2001/XMLSchema#",
           "isHuman": {
             "@id": "vocab:isHuman",
