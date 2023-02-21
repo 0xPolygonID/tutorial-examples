@@ -6,7 +6,7 @@
       "id": "@id",
       "type": "@type",
       "ProofOfDaoRole": {
-        "@id": "https://raw.githubusercontent.com/0xPolygonID/tutorial-examples/main/credential-schema/schemas-examples/proof-of-dao-role/proof-of-dao-role.json-ld#ProofOfDaoRole",
+        "@id": "https://raw.githubusercontent.com/0xPolygonID/tutorial-examples/main/credential-schema/schemas-examples/proof-of-dao-role/proof-of-dao-role.jsonld#ProofOfDaoRole",
         "@context": {
           "@version": 1.1,
           "@protected": true,
