@@ -3,11 +3,7 @@
     "type": "object",
     "$metadata": {
       "uris": {
-<<<<<<< Updated upstream
-        "jsonLdContext": "https://raw.githubusercontent.com/0xPolygonID/tutorial-examples/main/credential-schema/schemas-examples/proof-of-dao-role/proof-of-dao-role.json-ld",
-=======
         "jsonLdContext": "hhttps://raw.githubusercontent.com/0xPolygonID/tutorial-examples/main/credential-schema/schemas-examples/proof-of-dao-role/proof-of-dao-role.jsonld",
->>>>>>> Stashed changes
         "jsonSchema": "https://raw.githubusercontent.com/0xPolygonID/tutorial-examples/main/credential-schema/schemas-examples/proof-of-dao-role/proof-of-dao-role.json"
       }
     },

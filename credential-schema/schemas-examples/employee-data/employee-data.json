@@ -3,11 +3,7 @@
     "type": "object",
     "$metadata": {
       "uris": {
-<<<<<<< Updated upstream
-        "jsonLdContext": "https://raw.githubusercontent.com/0xPolygonID/tutorial-examples/main/credential-schema/schemas-examples/employee-data/employee-data.json-ld",
-=======
         "jsonLdContext": "hhttps://raw.githubusercontent.com/0xPolygonID/tutorial-examples/main/credential-schema/schemas-examples/employee-data/employee-data.jsonld",
->>>>>>> Stashed changes
         "jsonSchema": "https://raw.githubusercontent.com/0xPolygonID/tutorial-examples/main/credential-schema/schemas-examples/employee-data/employee-data.json"
       }
     },
