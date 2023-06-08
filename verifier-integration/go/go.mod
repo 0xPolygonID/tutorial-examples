@@ -14,8 +14,8 @@ require (
 	github.com/go-stack/stack v1.8.1 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
-	github.com/iden3/go-circuits v1.0.2 // indirect
-	github.com/iden3/go-iden3-auth v1.0.0 // indirect
+	github.com/iden3/go-circuits v1.0.3 // indirect
+	github.com/iden3/go-iden3-auth v1.0.3 // indirect
 	github.com/iden3/go-iden3-core v1.0.0 // indirect
 	github.com/iden3/go-iden3-crypto v0.0.13 // indirect
 	github.com/iden3/go-jwz v1.0.0-beta.0 // indirect
