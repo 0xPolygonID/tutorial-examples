@@ -36,8 +36,8 @@ func main() {
 	// Tree storage
 	store := memory.NewMemoryStorage()
 
-	// Generate a new MerkleTree with 32 levels
-	mt, _ := merkletree.NewMerkleTree(ctx, store, 32)
+	// Generate a new MerkleTree with 40 levels
+	mt, _ := merkletree.NewMerkleTree(ctx, store, 40)
 
 	// Add a leaf to the tree with index 1 and value 10
 	index1 := big.NewInt(1)
@@ -102,13 +102,13 @@ func main() {
 	// 4.1. Generate identity trees
 
 	// Create empty Claims tree
-	clt, _ := merkletree.NewMerkleTree(ctx, memory.NewMemoryStorage(), 32)
+	clt, _ := merkletree.NewMerkleTree(ctx, memory.NewMemoryStorage(), 40)
 
 	// Create empty Revocation tree
-	ret, _ := merkletree.NewMerkleTree(ctx, memory.NewMemoryStorage(), 32)
+	ret, _ := merkletree.NewMerkleTree(ctx, memory.NewMemoryStorage(), 40)
 
 	// Create empty Roots tree
-	rot, _ := merkletree.NewMerkleTree(ctx, memory.NewMemoryStorage(), 32)
+	rot, _ := merkletree.NewMerkleTree(ctx, memory.NewMemoryStorage(), 40)
 
 	// Get the Index of the claim and the Value of the authClaim
 	hIndex, hValue, _ := authClaim.HiHv()
