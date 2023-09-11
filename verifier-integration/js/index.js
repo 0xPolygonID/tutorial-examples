@@ -1,5 +1,5 @@
 const express = require('express');
-const {auth, resolver, loaders} = require('@iden3/js-iden3-auth')
+const {auth, resolver} = require('@iden3/js-iden3-auth')
 const getRawBody = require('raw-body')
 
 const app = express();
@@ -86,25 +86,24 @@ const requestMap = new Map();
 			const ethStateResolver = new resolver.EthStateResolver(
 				ethURL,
 				contractAddress,
-			  );
+			);
 
 			const resolvers = {
 				['polygon:mumbai']: ethStateResolver,
 			};
-							 
+
 
 			// fetch authRequest from sessionID
 			const authRequest = requestMap.get(`${sessionId}`);
-				
-			// Locate the directory that contains circuit's verification keys
-			const verificationKeyloader = new loaders.FSKeyLoader(keyDIR);
-			const sLoader = new loaders.UniversalSchemaLoader('ipfs.io');
+
 
 			// EXECUTE VERIFICATION
-			const verifier = new auth.Verifier(
-			verificationKeyloader,
-			sLoader,
-			resolvers,
+			const verifier = await auth.Verifier.newVerifier(
+				{
+					stateResolver: resolvers,
+					circuitsDir: path.join(__dirname, keyDIR),
+					ipfsGatewayURL:"https://ipfs.io"
+				}
 			);
 
 
