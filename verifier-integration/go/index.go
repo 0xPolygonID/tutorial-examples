@@ -10,12 +10,13 @@ import (
 	"time"
 
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/iden3/go-circuits"
-	auth "github.com/iden3/go-iden3-auth"
-	"github.com/iden3/go-iden3-auth/loaders"
-	"github.com/iden3/go-iden3-auth/pubsignals"
-	"github.com/iden3/go-iden3-auth/state"
-	"github.com/iden3/iden3comm/protocol"
+	circuits "github.com/iden3/go-circuits/v2"
+	auth "github.com/iden3/go-iden3-auth/v2"
+
+	"github.com/iden3/go-iden3-auth/v2/loaders"
+	"github.com/iden3/go-iden3-auth/v2/pubsignals"
+	"github.com/iden3/go-iden3-auth/v2/state"
+	"github.com/iden3/iden3comm/v2/protocol"
 )
 
 func main() {
@@ -99,7 +100,7 @@ func Callback(w http.ResponseWriter, r *http.Request) {
 	// print authRequest
 	fmt.Println(authRequest)
 
-	// load the verifcation key
+	// load the verification key
 	var verificationKeyloader = &loaders.FSKeyLoader{Dir: keyDIR}
 	resolver := state.ETHResolver{
 		RPCUrl:          ethURL,
@@ -111,7 +112,12 @@ func Callback(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// EXECUTE VERIFICATION
-	verifier := auth.NewVerifier(verificationKeyloader, loaders.DefaultSchemaLoader{IpfsURL: "ipfs.io"}, resolvers)
+	verifier, err := auth.NewVerifier(verificationKeyloader, resolvers, auth.WithIPFSGateway("https://ipfs.io"))
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 	authResponse, err := verifier.FullVerify(
 		r.Context(),
 		string(tokenBytes),

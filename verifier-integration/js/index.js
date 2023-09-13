@@ -1,5 +1,5 @@
 const express = require('express');
-const {auth, resolver} = require('@iden3/js-iden3-auth')
+const {auth, resolver, protocol} = require('@iden3/js-iden3-auth')
 const getRawBody = require('raw-body')
 
 const app = express();
