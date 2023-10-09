@@ -3,7 +3,7 @@ require('dotenv').config();
 require('@openzeppelin/hardhat-upgrades');
 
 module.exports = {
-  solidity: "0.8.17",
+  solidity: "0.8.16",
   networks: {
     mumbai: {
       chainId: 80001,
