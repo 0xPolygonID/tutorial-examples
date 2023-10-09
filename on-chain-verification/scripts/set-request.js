@@ -28,7 +28,7 @@ async function main() {
     };
 
   // add the address of the contract just deployed
-  const ERC20VerifierAddress = "0x1C30DC7674e5Fd4f6154152E018b92ff29E66B41"
+  const ERC20VerifierAddress = "0x955072E24F35B137361254BC8B01aCdfB09dE2bC"
 
   let erc20Verifier = await hre.ethers.getContractAt("ERC20Verifier", ERC20VerifierAddress)
 
@@ -37,7 +37,7 @@ async function main() {
   // const validatorAddress = "0x3DcAe4c8d94359D31e4C89D7F2b944859408C618"; // mtp validator
 
   try {
-    await erc20Verifier.setZKPRequest(
+     const txId = await erc20Verifier.setZKPRequest(
         requestId,
         validatorAddress,
         query.schema,
@@ -45,7 +45,7 @@ async function main() {
         query.operator,
         query.value
     );
-    console.log("Request set");
+    console.log("Request set: ", txId.hash);
   } catch (e) {
     console.log("error: ", e);
   }
