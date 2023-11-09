@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@nomiclabs/hardhat-waffle": "^2.0.3",
-    "@iden3/contracts": "^1.1.0",
+    "@iden3/contracts": "1.1.0",
     "@openzeppelin/contracts": "^4.7.3",
     "@openzeppelin/contracts-upgradeable": "^4.7.3",
     "@openzeppelin/hardhat-upgrades": "^1.22.1",
