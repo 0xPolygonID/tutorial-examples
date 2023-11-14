@@ -1,4 +1,6 @@
 const { Web3 } = require('web3');
+const { poseidon } = require('@iden3/js-crypto');
+const { SchemaHash } = require('@iden3/js-iden3-core');
 
 const Operators = {
   NOOP : 0, // No operation, skip query verification in circuit
@@ -40,6 +42,50 @@ function packValidatorParams(query, allowedIssuers = []) {
   );
 }
 
+function prepareCircuitArrayValues(arr, size) {
+  if (!arr) {
+    arr = [];
+  }
+  if (arr.length > size) {
+    throw new Error(`array size ${arr.length} is bigger max expected size ${size}`);
+  }
+
+  // Add the empty values
+  for (let i = arr.length; i < size; i++) {
+    arr.push(BigInt(0));
+  }
+
+  return arr;
+};
+
+function coreSchemaFromStr(schemaIntString) {
+  const schemaInt = BigInt(schemaIntString);
+  return SchemaHash.newSchemaHashFromInt(schemaInt);
+};
+
+function calculateQueryHash(
+  values,
+  schema,
+  slotIndex,
+  operator,
+  claimPathKey,
+  claimPathNotExists
+) {
+  const expValue = prepareCircuitArrayValues(values, 64);
+  const valueHash = poseidon.spongeHashX(expValue, 6);
+  const schemaHash = coreSchemaFromStr(schema);
+  const quaryHash = poseidon.hash([
+    schemaHash.bigInt(),
+    BigInt(slotIndex),
+    BigInt(operator),
+    BigInt(claimPathKey),
+    BigInt(claimPathNotExists),
+    valueHash
+  ]);
+  return quaryHash;
+}
+
+
 async function main() {
 
   // you can run https://go.dev/play/p/3id7HAhf-Wi to get schema hash and claimPathKey using YOUR schema
@@ -56,12 +102,21 @@ async function main() {
     claimPathKey: schemaClaimPathKey,
     operator: Operators.LT,
     slotIndex: 0,
-    value: [20020101, ...new Array(63).fill(0).map(i => 0)], // for operators 1-3 only first value matters
-    queryHash: '1496222740463292783938163206931059379817846775593932664024082849882751356658',
+    value: [20020101, ...new Array(63).fill(0)], // for operators 1-3 only first value matters
+    queryHash: '',
     circuitIds: ['credentialAtomicQueryMTPV2OnChain'],
     metadata: 'test medatada',
     skipClaimRevocationCheck: false
     };
+
+  query.queryHash = calculateQueryHash(
+        query.value,
+        query.schema,
+        query.slotIndex,
+        query.operator,
+        query.claimPathKey,
+        1
+      ).toString();
 
   // add the address of the contract just deployed
   const ERC20VerifierAddress = "0x955072E24F35B137361254BC8B01aCdfB09dE2bC"

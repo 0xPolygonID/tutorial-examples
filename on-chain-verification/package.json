@@ -17,7 +17,9 @@
     "@openzeppelin/hardhat-upgrades": "^1.22.1",
     "dotenv": "^16.0.2",
     "solidity-bytes-utils": "^0.8.0",
-    "web3": "^4.2.2"
+    "web3": "^4.2.2",
+    "@iden3/js-crypto": "1.0.3",
+    "@iden3/js-iden3-core": "1.1.0"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
