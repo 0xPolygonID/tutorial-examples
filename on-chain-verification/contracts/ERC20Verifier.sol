@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity 0.8.16;
 
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import {GenesisUtils} from "@iden3/contracts/lib/GenesisUtils.sol";
+import {PrimitiveTypeUtils} from "@iden3/contracts/lib/PrimitiveTypeUtils.sol";
 import {ICircuitValidator} from "@iden3/contracts/interfaces/ICircuitValidator.sol";
 import {ZKPVerifier} from "@iden3/contracts/verifiers/ZKPVerifier.sol";
 
@@ -13,20 +13,21 @@ contract ERC20Verifier is ERC20, ZKPVerifier {
     mapping(address => uint256) public addressToId;
 
     uint256 public TOKEN_AMOUNT_FOR_AIRDROP_PER_ID =
-    5 * 10**uint256(decimals());
+        5 * 10 ** uint256(decimals());
 
-    constructor(string memory name_, string memory symbol_)
-    ERC20(name_, symbol_)
-    {}
+    constructor(
+        string memory name_,
+        string memory symbol_
+    ) ERC20(name_, symbol_) {}
 
     function _beforeProofSubmit(
-        uint64, /* requestId */
+        uint64 /* requestId */,
         uint256[] memory inputs,
         ICircuitValidator validator
     ) internal view override {
         // check that  challenge input is address of sender
-        address addr = GenesisUtils.int256ToAddress(
-            inputs[validator.getChallengeInputIndex()]
+        address addr = PrimitiveTypeUtils.int256ToAddress(
+            inputs[validator.inputIndexOf("challenge")]
         );
         // this is linking between msg.sender and
         require(
@@ -48,7 +49,7 @@ contract ERC20Verifier is ERC20, ZKPVerifier {
         // get user id
         uint256 id = inputs[1];
         // additional check didn't get airdrop tokens before
-        if (idToAddress[id] == address(0) && addressToId[_msgSender()] == 0 ) {
+        if (idToAddress[id] == address(0) && addressToId[_msgSender()] == 0) {
             super._mint(_msgSender(), TOKEN_AMOUNT_FOR_AIRDROP_PER_ID);
             addressToId[_msgSender()] = id;
             idToAddress[id] = _msgSender();
@@ -56,7 +57,7 @@ contract ERC20Verifier is ERC20, ZKPVerifier {
     }
 
     function _beforeTokenTransfer(
-        address, /* from */
+        address /* from */,
         address to,
         uint256 /* amount */
     ) internal view override {

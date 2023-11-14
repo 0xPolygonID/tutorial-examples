@@ -1,3 +1,4 @@
+const { Web3 } = require('web3');
 
 const Operators = {
   NOOP : 0, // No operation, skip query verification in circuit
@@ -7,6 +8,36 @@ const Operators = {
   IN : 4, // in
   NIN : 5, // not in
   NE : 6   // not equal
+}
+
+function packValidatorParams(query, allowedIssuers = []) {
+  let web3 = new Web3(Web3.givenProvider || 'ws://localhost:8545');
+  return web3.eth.abi.encodeParameter(
+    {
+      CredentialAtomicQuery: {
+        schema: 'uint256',
+        claimPathKey: 'uint256',
+        operator: 'uint256',
+        slotIndex: 'uint256',
+        value: 'uint256[]',
+        queryHash: 'uint256',
+        allowedIssuers: 'uint256[]',
+        circuitIds: 'string[]',
+        skipClaimRevocationCheck: 'bool'
+      }
+    },
+    {
+      schema: query.schema,
+      claimPathKey: query.claimPathKey,
+      operator: query.operator,
+      slotIndex: query.slotIndex,
+      value: query.value,
+      queryHash: query.queryHash,
+      allowedIssuers: allowedIssuers,
+      circuitIds: query.circuitIds,
+      skipClaimRevocationCheck: query.skipClaimRevocationCheck
+    }
+  );
 }
 
 async function main() {
@@ -22,9 +53,14 @@ async function main() {
 
   const query = {
     schema: schemaBigInt,
-    claimPathKey  : schemaClaimPathKey,
-    operator: Operators.LT, // operator
+    claimPathKey: schemaClaimPathKey,
+    operator: Operators.LT,
+    slotIndex: 0,
     value: [20020101, ...new Array(63).fill(0).map(i => 0)], // for operators 1-3 only first value matters
+    queryHash: '1496222740463292783938163206931059379817846775593932664024082849882751356658',
+    circuitIds: ['credentialAtomicQueryMTPV2OnChain'],
+    metadata: 'test medatada',
+    skipClaimRevocationCheck: false
     };
 
   // add the address of the contract just deployed
@@ -38,13 +74,11 @@ async function main() {
 
   try {
      const txId = await erc20Verifier.setZKPRequest(
-        requestId,
-        validatorAddress,
-        query.schema,
-        query.claimPathKey,
-        query.operator,
-        query.value
-    );
+        requestId, {
+        metadata: 'metadata',
+        validator: validatorAddress,
+        data: packValidatorParams(query)
+      });
     console.log("Request set: ", txId.hash);
   } catch (e) {
     console.log("error: ", e);
