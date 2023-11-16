@@ -1,6 +1,7 @@
 const { Web3 } = require('web3');
 const { poseidon } = require('@iden3/js-crypto');
 const { SchemaHash } = require('@iden3/js-iden3-core');
+const { prepareCircuitArrayValues } = require('@0xpolygonid/js-sdk');
 
 const Operators = {
   NOOP : 0, // No operation, skip query verification in circuit
@@ -25,7 +26,8 @@ function packValidatorParams(query, allowedIssuers = []) {
         queryHash: 'uint256',
         allowedIssuers: 'uint256[]',
         circuitIds: 'string[]',
-        skipClaimRevocationCheck: 'bool'
+        skipClaimRevocationCheck: 'bool',
+        claimPathNotExists: 'uint256'
       }
     },
     {
@@ -37,26 +39,11 @@ function packValidatorParams(query, allowedIssuers = []) {
       queryHash: query.queryHash,
       allowedIssuers: allowedIssuers,
       circuitIds: query.circuitIds,
-      skipClaimRevocationCheck: query.skipClaimRevocationCheck
+      skipClaimRevocationCheck: query.skipClaimRevocationCheck,
+      claimPathNotExists: query.claimPathNotExists
     }
   );
 }
-
-function prepareCircuitArrayValues(arr, size) {
-  if (!arr) {
-    arr = [];
-  }
-  if (arr.length > size) {
-    throw new Error(`array size ${arr.length} is bigger max expected size ${size}`);
-  }
-
-  // Add the empty values
-  for (let i = arr.length; i < size; i++) {
-    arr.push(BigInt(0));
-  }
-
-  return arr;
-};
 
 function coreSchemaFromStr(schemaIntString) {
   const schemaInt = BigInt(schemaIntString);
@@ -92,21 +79,23 @@ async function main() {
   // suggestion: Use your own go application with that code rather than using playground (it can give a timeout just because it’s restricted by the size of dependency package)
   const schemaBigInt = "74977327600848231385663280181476307657"
 
+  const type = 'KYCAgeCredential';
+  const schemaUrl = 'https://raw.githubusercontent.com/iden3/claim-schema-vocab/main/schemas/json-ld/kyc-v3.json-ld';
    // merklized path to field in the W3C credential according to JSONLD  schema e.g. birthday in the KYCAgeCredential under the url "https://raw.githubusercontent.com/iden3/claim-schema-vocab/main/schemas/json-ld/kyc-v3.json-ld"
   const schemaClaimPathKey = "20376033832371109177683048456014525905119173674985843915445634726167450989630"
 
   const requestId = 1;
 
   const query = {
+    requestId,
     schema: schemaBigInt,
     claimPathKey: schemaClaimPathKey,
     operator: Operators.LT,
     slotIndex: 0,
     value: [20020101, ...new Array(63).fill(0)], // for operators 1-3 only first value matters
-    queryHash: '',
     circuitIds: ['credentialAtomicQueryMTPV2OnChain'],
-    metadata: 'test medatada',
-    skipClaimRevocationCheck: false
+    skipClaimRevocationCheck: false,
+    claimPathNotExists: 1
     };
 
   query.queryHash = calculateQueryHash(
@@ -115,7 +104,7 @@ async function main() {
         query.slotIndex,
         query.operator,
         query.claimPathKey,
-        1
+        query.claimPathNotExists
       ).toString();
 
   // add the address of the contract just deployed
@@ -124,13 +113,45 @@ async function main() {
   let erc20Verifier = await hre.ethers.getContractAt("ERC20Verifier", ERC20VerifierAddress)
 
 
-  const validatorAddress = "0xF2D4Eeb4d455fb673104902282Ce68B9ce4Ac450"; // sig validator
-  // const validatorAddress = "0x3DcAe4c8d94359D31e4C89D7F2b944859408C618"; // mtp validator
+  const validatorAddress = "0x1E4a22540E293C0e5E8c33DAfd6f523889cFd878"; // sig validator
+  // const validatorAddress = "0x0682fbaA2E4C478aD5d24d992069dba409766121"; // mtp validator
+
+  const invokeRequestMetadata = {
+        id: '7f38a193-0918-4a48-9fac-36adfdb8b542',
+        typ: 'application/iden3comm-plain-json',
+        type: 'https://iden3-communication.io/proofs/1.0/contract-invoke-request',
+        thid: '7f38a193-0918-4a48-9fac-36adfdb8b542',
+        body: {
+          reason: 'for testing',
+          transaction_data: {
+            contract_address: ERC20VerifierAddress,
+            method_id: 'b68967e2',
+            chain_id: 80001,
+            network: 'polygon-mumbai'
+          },
+          scope: [
+            {
+              id: query.requestId,
+              circuitId: query.circuitIds[0],
+              query: {
+                allowedIssuers: ['*'],
+                context: schemaUrl,
+                credentialSubject: {
+                  birthday: {
+                    $lt: query.value[0]
+                  }
+                },
+                type
+              }
+            }
+          ]
+        }
+      };
 
   try {
      const txId = await erc20Verifier.setZKPRequest(
         requestId, {
-        metadata: 'metadata',
+        metadata: JSON.stringify(invokeRequestMetadata),
         validator: validatorAddress,
         data: packValidatorParams(query)
       });
