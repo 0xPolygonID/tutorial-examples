@@ -95,7 +95,7 @@ async function main() {
     value: [20020101, ...new Array(63).fill(0)], // for operators 1-3 only first value matters
     circuitIds: ['credentialAtomicQuerySigV2OnChain'],
     skipClaimRevocationCheck: false,
-    claimPathNotExists: 1
+    claimPathNotExists: 0
     };
 
   query.queryHash = calculateQueryHash(
@@ -106,9 +106,9 @@ async function main() {
         query.claimPathKey,
         query.claimPathNotExists
       ).toString();
-
+    
   // add the address of the contract just deployed
-  const ERC20VerifierAddress = "0xfb582f48136f079C0D03554954e081911Bfc3FA4"
+  const ERC20VerifierAddress = "0xC9d698dffd8c6396D24506d8B44748CC56652731"
 
   let erc20Verifier = await hre.ethers.getContractAt("ERC20Verifier", ERC20VerifierAddress)
 
@@ -122,7 +122,7 @@ async function main() {
         type: 'https://iden3-communication.io/proofs/1.0/contract-invoke-request',
         thid: '7f38a193-0918-4a48-9fac-36adfdb8b542',
         body: {
-          reason: 'for testing',
+          reason: 'airdrop participation',
           transaction_data: {
             contract_address: ERC20VerifierAddress,
             method_id: 'b68967e2',
