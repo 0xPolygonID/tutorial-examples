@@ -10,7 +10,9 @@ This tutorial uses [Hardhat](https://hardhat.org/) as a development environment 
 
 2. Open the app and set a pin for security
 
-3. Issue yourself a Credential of type `Kyc Age Credential Merklized` from the [Polygon ID Issuer Sandbox](https://issuer-v2.polygonid.me/)
+3. Issue yourself a Credential of type `Kyc Age Credential Merklized` from the [Polygon ID Issuer Sandbox](https://issuer-ui.polygonid.me/)
+   * Import json schema[v3](https://raw.githubusercontent.com/iden3/claim-schema-vocab/main/schemas/json/KYCAgeCredential-v3.json)
+   * Issue credential https://issuer-ui.polygonid.me/credentials/issue using the credential link and fetch credential to mobile 
 
 ## Instructions to compile and deploy the smart contract
 
