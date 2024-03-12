@@ -1,24 +1,29 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.16;
+pragma solidity 0.8.20;
 
-import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {ERC20Upgradeable} from '@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol';
 import {PrimitiveTypeUtils} from "@iden3/contracts/lib/PrimitiveTypeUtils.sol";
 import {ICircuitValidator} from "@iden3/contracts/interfaces/ICircuitValidator.sol";
 import {ZKPVerifier} from "@iden3/contracts/verifiers/ZKPVerifier.sol";
 
-contract ERC20Verifier is ERC20, ZKPVerifier {
+contract ERC20Verifier is ERC20Upgradeable, ZKPVerifier {
     uint64 public constant TRANSFER_REQUEST_ID = 1;
 
     mapping(uint256 => address) public idToAddress;
     mapping(address => uint256) public addressToId;
 
-    uint256 public TOKEN_AMOUNT_FOR_AIRDROP_PER_ID =
-        5 * 10 ** uint256(decimals());
+    uint256 public TOKEN_AMOUNT_FOR_AIRDROP_PER_ID;
 
-    constructor(
-        string memory name_,
-        string memory symbol_
-    ) ERC20(name_, symbol_) {}
+
+    function initialize(
+        string memory name,
+        string memory symbol,
+        address initialOwner
+    ) public initializer {
+        super.__ERC20_init(name, symbol);
+        super.__ZKPVerifier_init(initialOwner);
+        TOKEN_AMOUNT_FOR_AIRDROP_PER_ID = 5 * 10 ** uint256(decimals());
+    }
 
     function _beforeProofSubmit(
         uint64 /* requestId */,
@@ -26,7 +31,7 @@ contract ERC20Verifier is ERC20, ZKPVerifier {
         ICircuitValidator validator
     ) internal view override {
         // check that  challenge input is address of sender
-        address addr = PrimitiveTypeUtils.int256ToAddress(
+        address addr = PrimitiveTypeUtils.uint256LEToAddress(
             inputs[validator.inputIndexOf("challenge")]
         );
         // this is linking between msg.sender and
@@ -56,14 +61,20 @@ contract ERC20Verifier is ERC20, ZKPVerifier {
         }
     }
 
-    function _beforeTokenTransfer(
-        address /* from */,
+    function _update(
+        address from /* from */,
         address to,
-        uint256 /* amount */
-    ) internal view override {
+        uint256 amount /* amount */
+    ) internal override beforeTransfer(to) {
+        super._update(from, to, amount);
+    }
+
+    modifier beforeTransfer(address to) {
+        MainStorage storage s = _getMainStorage();
         require(
-            proofs[to][TRANSFER_REQUEST_ID] == true,
+            s.proofs[to][TRANSFER_REQUEST_ID] == true,
             "only identities who provided proof are allowed to receive tokens"
         );
+        _;
     }
 }
