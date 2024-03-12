@@ -10,11 +10,11 @@ async function main() {
     const validators = [
         {
             verifierAddress: "0x357Bb671fEb5577d310410eab93291B4De04a834",
-            validatorContractName: "CredentialAtomicQueryMTPValidator",
+            validatorContractName: "CredentialAtomicQueryMTPV2Validator",
         },
         {
             verifierAddress: "0xf635aCA4E8B5268aA9Bf8E226907C27383fC9686",
-            validatorContractName: "CredentialAtomicQuerySigValidator",
+            validatorContractName: "CredentialAtomicQuerySigV2Validator",
         },
     ];
     const deployInfo = [];

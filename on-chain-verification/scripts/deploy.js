@@ -4,9 +4,9 @@ async function main() {
   const verifierSymbol = "zkERC20";
 
   const ERC20Verifier = await ethers.getContractFactory(verifierContract);
-  const erc20Verifier = await ERC20Verifier.deploy(
-    verifierName,
-    verifierSymbol
+  const erc20Verifier = await upgrades.deployProxy(
+    ERC20Verifier,
+    [verifierName, verifierSymbol]
   );
 
   await erc20Verifier.deployed();

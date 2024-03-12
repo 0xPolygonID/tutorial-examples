@@ -10,10 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@iden3/contracts": "1.4.5",
+    "@iden3/contracts": "2.0.1",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
-    "@openzeppelin/contracts": "^4.7.3",
-    "@openzeppelin/contracts-upgradeable": "^4.7.3",
+    "@openzeppelin/contracts": "^5.0.1",
+    "@openzeppelin/contracts-upgradeable": "^5.0.1",
     "@openzeppelin/hardhat-upgrades": "^1.22.1",
     "dotenv": "^16.0.2",
     "solidity-bytes-utils": "^0.8.0",
