@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const {auth, resolver, protocol} = require('@iden3/js-iden3-auth')
 const getRawBody = require('raw-body')
@@ -115,5 +116,5 @@ const requestMap = new Map();
 		} catch (error) {
 		return res.status(500).send(error);
 		}
-		return res.status(200).set('Content-Type', 'application/json').send("user with ID: " + authResponse.from + " Succesfully authenticated");
+		return res.status(200).set('Content-Type', 'application/json').send(authResponse);
 		}
