@@ -38,11 +38,6 @@ function handleDisplay(el, needShow, display = 'block') {
 }
 
 function makeDisabled(el, disabled, cls = 'disabled') {
-    if (disabled) {
-        el.disabled = true
-        el.classList.add(cls);
-    } else {
-        el.classList.remove(cls);
-        el.disabled = false;
-    }
+    el.disabled = disabled
+    el.classList.toggle(cls, disabled);
 }

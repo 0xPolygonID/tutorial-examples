@@ -1,5 +1,3 @@
 # tutorial-examples
 
-Support files for Polygon ID tutorial => https://0xpolygonid.github.io/tutorials/
-
-
+For additional info please visit [Polygon ID tutorial](https://devs.polygonid.com/docs/quick-start-demo)

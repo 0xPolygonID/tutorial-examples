@@ -34,7 +34,7 @@ func GetAuthRequest(w http.ResponseWriter, r *http.Request) {
 	rURL := "<NGROK_URL>"
 	sessionID := 1
 	CallbackURL := "/api/callback"
-	Audience := "did:polygonid:polygon:mumbai:2qDyy1kEo2AYcP3RT4XGea7BtxsY285szg6yP9SPrs"
+	Audience := "did:polygonid:polygon:amoy:2qQ68JkRcf3xrHPQPWZei3YeVzHPP58wYNxx2mEouR"
 
 	uri := fmt.Sprintf("%s%s?sessionId=%s", rURL, CallbackURL, strconv.Itoa(sessionID))
 
@@ -52,10 +52,10 @@ func GetAuthRequest(w http.ResponseWriter, r *http.Request) {
 		"allowedIssuers": []string{"*"},
 		"credentialSubject": map[string]interface{}{
 			"birthday": map[string]interface{}{
-				"$lt": 20000101,
+				"$eq": 1713267016597,
 			},
 		},
-		"context": "https://raw.githubusercontent.com/iden3/claim-schema-vocab/main/schemas/json-ld/kyc-v3.json-ld",
+		"context": "https://raw.githubusercontent.com/iden3/claim-schema-vocab/main/schemas/json-ld/kyc-v4.jsonld",
 		"type":    "KYCAgeCredential",
 	}
 	request.Body.Scope = append(request.Body.Scope, mtpProofRequest)
@@ -84,12 +84,12 @@ func Callback(w http.ResponseWriter, r *http.Request) {
 	tokenBytes, _ := io.ReadAll(r.Body)
 
 	// Add Polygon Mumbai RPC node endpoint - needed to read on-chain state
-	ethURL := "MUMBAI_RPC_URL"
+	ethURL := "AMOY_RPC_URL"
 
 	// Add identity state contract address
-	contractAddress := "0x134B1BE34911E39A8397ec6289782989729807a4"
+	contractAddress := "0x1a4cC30f2aA0377b0c3bc9848766D90cb4404124"
 
-	resolverPrefix := "polygon:mumbai"
+	resolverPrefix := "polygon:amoy"
 
 	// Locate the directory that contains circuit's verification keys
 	keyDIR := "../keys"
