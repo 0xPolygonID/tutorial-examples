@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity 0.8.16;
+pragma solidity 0.8.20;
 
-import {CredentialAtomicQueryMTPValidator} from "@iden3/contracts/validators/CredentialAtomicQueryMTPValidator.sol";
-import {CredentialAtomicQuerySigValidator} from "@iden3/contracts/validators/CredentialAtomicQuerySigValidator.sol";
+import {CredentialAtomicQueryMTPV2Validator} from "@iden3/contracts/validators/CredentialAtomicQueryMTPV2Validator.sol";
+import {CredentialAtomicQuerySigV2Validator} from "@iden3/contracts/validators/CredentialAtomicQuerySigV2Validator.sol";
