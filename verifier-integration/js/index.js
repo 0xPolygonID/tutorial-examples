@@ -50,10 +50,10 @@ async function getAuthRequest(req, res) {
       allowedIssuers: ["*"],
       type: "KYCAgeCredential",
       context:
-        "https://raw.githubusercontent.com/iden3/claim-schema-vocab/main/schemas/json-ld/kyc-v4.jsonld",
+        "https://raw.githubusercontent.com/iden3/claim-schema-vocab/main/schemas/json-ld/kyc-v3.json-ld",
       credentialSubject: {
         birthday: {
-          $eq: 1713267016597,
+          $lt: 20000101,
         },
       },
     },

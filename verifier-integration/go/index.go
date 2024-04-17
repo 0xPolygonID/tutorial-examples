@@ -68,11 +68,12 @@ func GetAuthRequest(w http.ResponseWriter, r *http.Request) {
 		"allowedIssuers": []string{"*"},
 		"credentialSubject": map[string]interface{}{
 			"birthday": map[string]interface{}{
-				"$eq": 1713267016597,
+				"$lt": 20000101,
 			},
 		},
-		"context": "https://raw.githubusercontent.com/iden3/claim-schema-vocab/main/schemas/json-ld/kyc-v4.jsonld",
-		"type":    "KYCAgeCredential",
+		"context": "https://raw.githubusercontent.com/iden3/claim-schema-vocab/main/schemas/json-ld/kyc-v3.json-ld",
+
+		"type": "KYCAgeCredential",
 	}
 	request.Body.Scope = append(request.Body.Scope, mtpProofRequest)
 
