@@ -6,7 +6,7 @@ const getRawBody = require("raw-body");
 const app = express();
 const port = 8080;
 
-app.use(express.static("static"));
+app.use(express.static("../static"));
 
 app.get("/api/sign-in", (req, res) => {
   console.log("get Auth Request");
@@ -75,6 +75,7 @@ async function callback(req, res) {
   // get JWZ token params from the post request
   const raw = await getRawBody(req);
   const tokenStr = raw.toString().trim();
+  console.log(tokenStr);
 
   const ethURL = "<AMOY_URL>";
   const contractAddress = "0x1a4cC30f2aA0377b0c3bc9848766D90cb4404124";

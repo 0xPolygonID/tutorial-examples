@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 
@@ -13,16 +14,31 @@ import (
 	circuits "github.com/iden3/go-circuits/v2"
 	auth "github.com/iden3/go-iden3-auth/v2"
 
-	"github.com/iden3/go-iden3-auth/v2/loaders"
 	"github.com/iden3/go-iden3-auth/v2/pubsignals"
 	"github.com/iden3/go-iden3-auth/v2/state"
 	"github.com/iden3/iden3comm/v2/protocol"
 )
 
+const VerificationKeyPath = "verification_key.json"
+
+type KeyLoader struct {
+	Dir string
+}
+
+// Load keys from embedded FS
+func (m KeyLoader) Load(id circuits.CircuitID) ([]byte, error) {
+	return os.ReadFile(fmt.Sprintf("%s/%v/%s", m.Dir, id, VerificationKeyPath))
+}
+
 func main() {
+	fs := http.FileServer(http.Dir("../static"))
+	http.Handle("/", fs)
 	http.HandleFunc("/api/sign-in", GetAuthRequest)
 	http.HandleFunc("/api/callback", Callback)
-	http.ListenAndServe(":8080", nil)
+	log.Println("Starting server at port 8080")
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		log.Fatal(err)
+	}
 }
 
 // Create a map to store the auth requests and their session IDs
@@ -76,12 +92,17 @@ func GetAuthRequest(w http.ResponseWriter, r *http.Request) {
 
 // Callback works with sign-in callbacks
 func Callback(w http.ResponseWriter, r *http.Request) {
-
+	fmt.Println("callback")
 	// Get session ID from request
 	sessionID := r.URL.Query().Get("sessionId")
 
 	// get JWZ token params from the post request
-	tokenBytes, _ := io.ReadAll(r.Body)
+	tokenBytes, err := io.ReadAll(r.Body)
+
+	if err != nil {
+		log.Println(err)
+		return
+	}
 
 	// Add Polygon Mumbai RPC node endpoint - needed to read on-chain state
 	ethURL := "AMOY_RPC_URL"
@@ -98,10 +119,9 @@ func Callback(w http.ResponseWriter, r *http.Request) {
 	authRequest := requestMap[sessionID]
 
 	// print authRequest
-	fmt.Println(authRequest)
+	log.Println(authRequest)
 
-	// load the verification key
-	var verificationKeyloader = &loaders.FSKeyLoader{Dir: keyDIR}
+	var verificationKeyLoader = &KeyLoader{Dir: keyDIR}
 	resolver := state.ETHResolver{
 		RPCUrl:          ethURL,
 		ContractAddress: common.HexToAddress(contractAddress),
@@ -112,7 +132,7 @@ func Callback(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// EXECUTE VERIFICATION
-	verifier, err := auth.NewVerifier(verificationKeyloader, resolvers, auth.WithIPFSGateway("https://ipfs.io"))
+	verifier, err := auth.NewVerifier(verificationKeyLoader, resolvers, auth.WithIPFSGateway("https://ipfs.io"))
 	if err != nil {
 		log.Println(err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -129,13 +149,16 @@ func Callback(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userID := authResponse.From
-
-	messageBytes := []byte("User with ID " + userID + " Successfully authenticated")
+	//marshal auth resp
+	messageBytes, err := json.Marshal(authResponse)
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
 	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(messageBytes)
-
-	return
+	log.Println("verification passed")
 }
