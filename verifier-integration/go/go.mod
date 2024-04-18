@@ -2,13 +2,13 @@ module polygon-id-go-verifier
 
 go 1.19
 
-require github.com/iden3/go-iden3-crypto v0.0.15 // indirect; indirectgo
+require github.com/iden3/go-iden3-crypto v0.0.16 // indirect; indirectgo
 
 require (
 	github.com/ethereum/go-ethereum v1.11.5
-	github.com/iden3/go-circuits/v2 v2.2.0
-	github.com/iden3/go-iden3-auth/v2 v2.2.2
-	github.com/iden3/iden3comm/v2 v2.3.2
+	github.com/iden3/go-circuits/v2 v2.2.1
+	github.com/iden3/go-iden3-auth/v2 v2.3.3
+	github.com/iden3/iden3comm/v2 v2.3.3
 )
 
 require (
@@ -28,15 +28,15 @@ require (
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/holiman/uint256 v1.2.2-0.20230321075855-87b91420868c // indirect
 	github.com/iden3/contracts-abi/state/go/abi v1.0.1 // indirect
-	github.com/iden3/go-iden3-core/v2 v2.1.0 // indirect
-	github.com/iden3/go-jwz/v2 v2.0.2 // indirect
+	github.com/iden3/go-iden3-core/v2 v2.1.1 // indirect
+	github.com/iden3/go-jwz/v2 v2.0.3 // indirect
 	github.com/iden3/go-merkletree-sql/v2 v2.0.4 // indirect
 	github.com/iden3/go-rapidsnark/prover v0.0.10 // indirect
 	github.com/iden3/go-rapidsnark/types v0.0.3 // indirect
 	github.com/iden3/go-rapidsnark/verifier v0.0.5 // indirect
 	github.com/iden3/go-rapidsnark/witness/v2 v2.0.0 // indirect
 	github.com/iden3/go-rapidsnark/witness/wazero v0.0.0-20230524142950-0986cf057d4e // indirect
-	github.com/iden3/go-schema-processor/v2 v2.3.3 // indirect
+	github.com/iden3/go-schema-processor/v2 v2.3.4 // indirect
 	github.com/ipfs/boxo v0.12.0 // indirect
 	github.com/ipfs/go-cid v0.4.1 // indirect
 	github.com/ipfs/go-ipfs-api v0.7.0 // indirect
