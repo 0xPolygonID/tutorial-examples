@@ -2,7 +2,7 @@ const path = require("path");
 const express = require("express");
 const { auth, resolver } = require("@iden3/js-iden3-auth");
 const getRawBody = require("raw-body");
-import VidosResolver from "./VidosResolver";
+const VidosResolver = require("./VidosResolver");
 
 const app = express();
 const port = 8080;

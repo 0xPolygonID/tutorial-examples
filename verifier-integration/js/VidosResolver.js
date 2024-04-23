@@ -4,8 +4,10 @@ const { resolver } = require("@iden3/js-iden3-auth");
 /**
  * Implementation of {@link resolver.IStateResolver} that uses Vidos resolver service to resolve states.
  * It can serve as drop-in replacement for {@link resolver.EthStateResolver}.
+ * 
+ * @implements {resolver.IStateResolver}
  */
-export default class VidosResolver extends resolver.IStateResolver {
+class VidosResolver {
   /**
    * @param {string} resolverUrl
    * @param {string} apiKey
@@ -112,3 +114,5 @@ export default class VidosResolver extends resolver.IStateResolver {
     };
   }
 }
+
+module.exports = VidosResolver;

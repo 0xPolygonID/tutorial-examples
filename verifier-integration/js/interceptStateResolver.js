@@ -6,7 +6,7 @@ const { resolver } = require("@iden3/js-iden3-auth");
  * @param {resolver.IStateResolver} resolver
  * @returns {resolver.IStateResolver}
  */
-export default function interceptStateResolver(resolver) {
+function interceptStateResolver(resolver) {
   return {
     async resolve(id, state) {
       try {
@@ -32,3 +32,5 @@ export default function interceptStateResolver(resolver) {
     },
   };
 }
+
+module.exports = interceptStateResolver;
