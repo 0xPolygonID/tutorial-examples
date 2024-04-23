@@ -1,6 +1,7 @@
+require("dotenv").config();
 const path = require("path");
 const express = require("express");
-const { auth, resolver, protocol } = require("@iden3/js-iden3-auth");
+const { auth, resolver, VidosResolver } = require("@iden3/js-iden3-auth");
 const getRawBody = require("raw-body");
 
 const app = express();
@@ -85,9 +86,17 @@ async function callback(req, res) {
     ethURL,
     contractAddress
   );
+  const vidosResolver =
+    process.env.VIDOS_RESOLVER_URL && process.env.VIDOS_API_KEY
+      ? new VidosResolver(
+          process.env.VIDOS_RESOLVER_URL,
+          process.env.VIDOS_API_KEY,
+          'amoy'
+        )
+      : undefined;
 
   const resolvers = {
-    ["polygon:amoy"]: ethStateResolver,
+    ["polygon:amoy"]: vidosResolver ?? ethStateResolver,
   };
 
   // fetch authRequest from sessionID
