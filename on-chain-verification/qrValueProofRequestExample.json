@@ -6,10 +6,10 @@
     "body": {
         "reason": "airdrop participation",
         "transaction_data": {
-            "contract_address": "0x1C30DC7674e5Fd4f6154152E018b92ff29E66B41",
+            "contract_address": "0xf3b2CD144940D1D116e4A58B8d38B898aAe8cfed",
             "method_id": "b68967e2",
-            "chain_id": 80001,
-            "network": "polygon-mumbai"
+            "chain_id": 80002,
+            "network": "polygon-amoy"
         },
         "scope": [
             {

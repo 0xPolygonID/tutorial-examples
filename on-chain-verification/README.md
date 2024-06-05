@@ -24,15 +24,15 @@ This tutorial uses [Hardhat](https://hardhat.org/) as a development environment 
     `npx hardhat compile`
 
 4. Deploy smart contracts
-    `npx hardhat run --network mumbai scripts/deploy.js`
- - results in x tx hash: 0xecf178144CceC09417412D66E2ecC8a2841eE228
- - example contract creation: https://mumbai.polygonscan.com/address/0xecf178144ccec09417412d66e2ecc8a2841ee228
+    `npx hardhat run --network amoy scripts/deploy.js`
+ - console should log output similar to `ERC20zkAirdrop  contract address: 0x365D13748BEBcDaFEE12Fa18eA653f4E168A190c` with different address.
+ - example contract creation: https://amoy.polygonscan.com/tx/0x1102ccb5d1e322c0bdf32d590695f3a70f7e2128061ee4325413297ff88034e8
 
 5. Update the `ERC20VerifierAddress` variable in scripts/set-request.js with your deployed contract address
 
 6. Run set-request to send the zk request to the smart contract
-    `npx hardhat run --network mumbai scripts/set-request.js`
-    - Successful tx means the age query has been set up: https://mumbai.polygonscan.com/tx/0x2ddb2db7b3d35cf7cdf658209b257fd2a51c49df2249bf46ede8979eb8410ffb
+    `npx hardhat run --network amoy scripts/set-request.js`
+    - Successful tx means the age query has been set up: https://amoy.polygonscan.com/tx/0x98e83a2aad5d41dc44fa03e0524848aeeabc8963ab36599fc3a0c8824d7ef722
 
 
 ## Claim airdrop from a frontend
