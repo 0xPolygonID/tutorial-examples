@@ -6,14 +6,14 @@ const { ethers, upgrades } = require("hardhat");
 const pathOutputJson = path.join(__dirname, "./deploy_validator_output.json");
 
 async function main() {
-    const stateAddress = "0x134B1BE34911E39A8397ec6289782989729807a4";
+    const stateAddress = "0x1a4cC30f2aA0377b0c3bc9848766D90cb4404124";
     const validators = [
         {
-            verifierAddress: "0x357Bb671fEb5577d310410eab93291B4De04a834",
+            verifierAddress: "0x789D95794973034BFeDed6D4693e7cc3Eb253B3a",
             validatorContractName: "CredentialAtomicQueryMTPV2Validator",
         },
         {
-            verifierAddress: "0xf635aCA4E8B5268aA9Bf8E226907C27383fC9686",
+            verifierAddress: "0x35178273C828E08298EcB0C6F1b97B3aFf14C4cb",
             validatorContractName: "CredentialAtomicQuerySigV2Validator",
         },
     ];
@@ -49,10 +49,10 @@ async function main() {
         stateAddress,
     ]);
 
-    await validatorContractProxy.deployed();
-    console.log(`${validatorContractName} deployed to: ${validatorContractProxy.address}`);
+    await validatorContractProxy.waitForDeployment();
+    console.log(`${validatorContractName} deployed to: ${ await  validatorContractProxy.getAddress()}`);
 
-    return validatorContractProxy.address;
+    return validatorContractProxy.getAddress();
 }
 main()
     .then(() => process.exit(0))

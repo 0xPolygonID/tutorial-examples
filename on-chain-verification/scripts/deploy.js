@@ -9,8 +9,8 @@ async function main() {
     [verifierName, verifierSymbol]
   );
 
-  await erc20Verifier.deployed();
-  console.log(verifierName, " contract address:", erc20Verifier.address);
+  await  erc20Verifier.waitForDeployment()
+  console.log(verifierName, " contract address:", await erc20Verifier.getAddress());
 }
 main()
   .then(() => process.exit(0))

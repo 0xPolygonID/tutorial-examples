@@ -14,7 +14,7 @@ const Operators = {
 }
 
 function packValidatorParams(query, allowedIssuers = []) {
-  let web3 = new Web3(Web3.givenProvider || 'ws://localhost:8545');
+  const web3 = new Web3(Web3.givenProvider || 'ws://localhost:8545');
   return web3.eth.abi.encodeParameter(
     {
       CredentialAtomicQuery: {
@@ -75,7 +75,7 @@ function calculateQueryHash(
 
 async function main() {
 
-  // you can run https://go.dev/play/p/3id7HAhf-Wi to get schema hash and claimPathKey using YOUR schema
+  // you can run https://go.dev/play/p/oB_oOW7kBEw to get schema hash and claimPathKey using YOUR schema
   // suggestion: Use your own go application with that code rather than using playground (it can give a timeout just because it’s restricted by the size of dependency package)
   const schemaBigInt = "74977327600848231385663280181476307657"
 
@@ -108,13 +108,13 @@ async function main() {
       ).toString();
     
   // add the address of the contract just deployed
-  const ERC20VerifierAddress = "0xC9d698dffd8c6396D24506d8B44748CC56652731"
+  const ERC20VerifierAddress = "0xf3b2CD144940D1D116e4A58B8d38B898aAe8cfed"
 
   let erc20Verifier = await hre.ethers.getContractAt("ERC20Verifier", ERC20VerifierAddress)
 
 
-  const validatorAddress = "0x1E4a22540E293C0e5E8c33DAfd6f523889cFd878"; // sig validator
-  // const validatorAddress = "0x0682fbaA2E4C478aD5d24d992069dba409766121"; // mtp validator
+  const validatorAddress = "0x8c99F13dc5083b1E4c16f269735EaD4cFbc4970d"; // sig validator
+  // const validatorAddress = "0xEEd5068AD8Fecf0b9a91aF730195Fef9faB00356"; // mtp validator
 
   const invokeRequestMetadata = {
         id: '7f38a193-0918-4a48-9fac-36adfdb8b542',
@@ -126,8 +126,8 @@ async function main() {
           transaction_data: {
             contract_address: ERC20VerifierAddress,
             method_id: 'b68967e2',
-            chain_id: 80001,
-            network: 'polygon-mumbai'
+            chain_id: 80002,
+            network: 'polygon-amoy'
           },
           scope: [
             {
