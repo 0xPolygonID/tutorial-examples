@@ -1,43 +1,39 @@
-const base_url = window.location.origin+window.location.pathname;
+// Set the base URL for the API request
+const baseUrl = `${window.location.origin}${window.location.pathname}`;
 
+// Function to handle the page load event
 window.onload = () => {
-    const qrBtnEl = document.querySelector('.btn-qr');
-    const qrCodeEl = document.querySelector('#qrcode');
+    const qrCodeEl = document.getElementById('qrcode');
+    const linkButton = document.getElementById('button');
 
-    qrBtnEl.addEventListener('click', (e) => {
-        makeDisabled(qrBtnEl, false)
+    // Fetch data from the API to generate QR code and universal link
+    fetch(`${baseUrl}api/sign-in`)
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to fetch API data');
+            }
+        })
+        .then(data => {
+            // Generate QR code
+            generateQrCode(qrCodeEl, data);
+            qrCodeEl.style.display = 'block'; // Show the QR code
 
-        fetch(base_url+'api/sign-in')
-            .then(r => Promise.all([Promise.resolve(r.headers.get('x-id')), r.json()]))
-            .then(([id, data]) => {
-                console.log(data)
-                makeQr(qrCodeEl, data)
-                handleDisplay(qrCodeEl, true)
-                handleDisplay(qrBtnEl, false);
-                return id
-            })
-            .catch(err => console.log(err));
+            // Encode the data in Base64 for the universal link
+            const encodedRequest = btoa(JSON.stringify(data));
+            linkButton.href = `https://wallet.privado.id/#i_m=${encodedRequest}`;
+            linkButton.style.display = 'block'; // Show the universal link button
+        })
+        .catch(error => console.error('Error fetching data from API:', error));
+};
 
-    });
-
-}
-
-function makeQr(el, data) {
-    return new QRCode(el, {
+// Helper function to generate QR code
+function generateQrCode(element, data) {
+    new QRCode(element, {
         text: JSON.stringify(data),
-        width: 450,
-        height: 450,
-        colorDark: "#000",
-        colorLight: "#e9e9e9",
-        correctLevel: QRCode.CorrectLevel.L
+        width: 256,
+        height: 256,
+        correctLevel: QRCode.CorrectLevel.Q // Error correction level
     });
-}
-
-function handleDisplay(el, needShow, display = 'block') {
-    el.style.display = needShow ? display : 'none';
-}
-
-function makeDisabled(el, disabled, cls = 'disabled') {
-    el.disabled = disabled
-    el.classList.toggle(cls, disabled);
 }
