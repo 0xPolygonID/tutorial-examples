@@ -84,11 +84,7 @@ async function callback(req, res) {
   ),
   ["privado:main"]: new resolver.EthStateResolver(
     "https://rpc-mainnet.privado.id",
-    "0x975556428F077dB5877Ea2474D783D6C69233742"
-  ),
-  ["privado:test"]: new resolver.EthStateResolver(
-    "https://rpc-testnet.privado.id/",
-    "0x975556428F077dB5877Ea2474D783D6C69233742"
+    "0x3C9acB2205Aa72A05F6D77d708b5Cf85FCa3a896"
   )
 };
 
