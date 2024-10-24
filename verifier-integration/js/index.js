@@ -2,11 +2,12 @@ const path = require("path");
 const express = require("express");
 const { auth, resolver, protocol } = require("@iden3/js-iden3-auth");
 const getRawBody = require("raw-body");
-
+const cors = require('cors');
 const app = express();
 const port = 8080;
 
 app.use(express.static("../static"));
+app.use(cors());
 
 app.get("/api/sign-in", (req, res) => {
   console.log("get Auth Request");
@@ -39,8 +40,6 @@ async function getAuthRequest(req, res) {
   // Generate request for basic authentication
   const request = auth.createAuthorizationRequest("test flow", audience, uri);
 
-  request.id = "7f38a193-0918-4a48-9fac-36adfdb8b542";
-  request.thid = "7f38a193-0918-4a48-9fac-36adfdb8b542";
 
   // Add request for a specific proof
   const proofRequest = {
@@ -75,20 +74,23 @@ async function callback(req, res) {
   // get JWZ token params from the post request
   const raw = await getRawBody(req);
   const tokenStr = raw.toString().trim();
-  console.log(tokenStr);
 
-  const ethURL = "<AMOY_URL>";
-  const contractAddress = "0x1a4cC30f2aA0377b0c3bc9848766D90cb4404124";
   const keyDIR = "../keys";
 
-  const ethStateResolver = new resolver.EthStateResolver(
-    ethURL,
-    contractAddress
-  );
-
   const resolvers = {
-    ["polygon:amoy"]: ethStateResolver,
-  };
+    ["polygon:amoy"]: new resolver.EthStateResolver(
+    "<Polygon_Amoy_RPC_URL>",
+    "0x1a4cC30f2aA0377b0c3bc9848766D90cb4404124"
+  ),
+  ["privado:main"]: new resolver.EthStateResolver(
+    "https://rpc-mainnet.privado.id",
+    "0x975556428F077dB5877Ea2474D783D6C69233742"
+  ),
+  ["privado:test"]: new resolver.EthStateResolver(
+    "https://rpc-testnet.privado.id/",
+    "0x975556428F077dB5877Ea2474D783D6C69233742"
+  )
+};
 
   // fetch authRequest from sessionID
   const authRequest = requestMap.get(`${sessionId}`);
