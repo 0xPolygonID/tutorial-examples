@@ -1,10 +1,10 @@
 # Billions Login Service
 
-A Node.js backend service implementing secure authentication using Billions Network's decentralized identity protocol.
+A Node.js backend service implementing secure authentication using Billions Network.
 
 ## Overview
 
-This service provides a complete authentication flow leveraging Billions's zero-knowledge proof system. Users authenticate by clicking a universal link that opens the Billions wallet, offering a privacy-preserving alternative to traditional credential-based authentication.
+This service provides a complete authentication flow leveraging Billions's zero-knowledge proof system. Users authenticate by clicking a universal link that opens the Billions wallet, offering a privacy-preserving authentication.
 
 ## Directories
 
