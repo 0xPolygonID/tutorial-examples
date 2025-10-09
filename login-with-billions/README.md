@@ -1,6 +1,6 @@
 # Billions Login Service
 
-A Node.js backend service implementing secure authentication using Billions Network.
+A Reference implementation implementing secure did based authentication using Billions Network.
 
 ## Overview
 
