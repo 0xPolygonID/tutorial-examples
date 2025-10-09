@@ -1,16 +1,21 @@
 # Privado Login Service
 
-A Node.js backend service implementing secure authentication using Privado ID wallet.
+A Node.js backend service implementing secure authentication using Privado's decentralized identity protocol.
 
 ## Overview
 
-This service provides a complete authentication flow leveraging Privado's zero-knowledge proof system. Users authenticate by clicking a button that opens their Privado ID wallet, offering a privacy-preserving alternative to traditional authentication.
+This service provides a complete authentication flow leveraging Privado's zero-knowledge proof system. Users authenticate by clicking a universal link that opens the Privado ID wallet, offering a privacy-preserving alternative to traditional credential-based authentication.
+
+## Directories
+
+- `keys/`: Verification keys used by the verifier to validate Privado authentication responses. Required at runtime; update only when changing circuits.
+- `static/`: Frontend assets for the demo login UI (HTML, CSS, JS). Served by Express via `app.use(express.static('./static'))` in `index.js`.
 
 ### API Endpoints
 
-- `GET /api/sign-in` - Initiates authentication flow and returns QR code data
-- `POST /api/callback` - Handles wallet authentication responses and verifies proofs
-- `GET /api/auth-status` - Polls authentication status and returns verified user identity
+- `GET /api/sign-in` – Initiates the authentication flow and returns an authorization request payload to embed in the universal link
+- `POST /api/callback` – Receives the wallet response and verifies it using the bundled verification keys
+- `GET /api/auth-status` – Polls authentication status and returns verified user identity metadata
 
 ## Quick Start
 
@@ -57,4 +62,3 @@ If you have your own public API endpoint:
    ```
 
 3. **Ensure HTTPS is enabled** for secure wallet communication
-
