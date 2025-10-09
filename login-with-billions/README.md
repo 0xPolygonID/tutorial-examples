@@ -4,13 +4,18 @@ A Node.js backend service implementing secure authentication using Billions Netw
 
 ## Overview
 
-This service provides a complete authentication flow leveraging Billions's zero-knowledge proof system. Users authenticate by clicking a button that opens their Billions wallet, offering a privacy-preserving alternative to traditional authentication.
+This service provides a complete authentication flow leveraging Billions's zero-knowledge proof system. Users authenticate by clicking a universal link that opens the Billions wallet, offering a privacy-preserving authentication.
+
+## Directories
+
+- `keys/`: Verification keys used by the verifier to validate Billions authentication responses. Required at runtime; update only when changing circuits.
+- `static/`: Frontend assets for the demo login UI (HTML, CSS, JS). Served by Express via `app.use(express.static('./static'))` in `index.js`.
 
 ### API Endpoints
 
-- `GET /api/sign-in` - Initiates authentication flow and returns QR code data
-- `POST /api/callback` - Handles wallet authentication responses and verifies proofs
-- `GET /api/auth-status` - Polls authentication status and returns verified user identity
+- `GET /api/sign-in` – Starts the login flow and returns an authorization request, which is encoded to embed in the universal link
+- `POST /api/callback` – Receives the wallet response and verifies it using the bundled verification keys
+- `GET /api/auth-status` – Checks whether the session has completed authentication
 
 ## Quick Start
 
@@ -57,4 +62,3 @@ If you have your own public API endpoint:
    ```
 
 3. **Ensure HTTPS is enabled** for secure wallet communication
-
