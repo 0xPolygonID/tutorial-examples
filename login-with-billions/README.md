@@ -13,9 +13,9 @@ This service provides a complete authentication flow leveraging Billions's zero-
 
 ### API Endpoints
 
-- `GET /api/sign-in` – Initiates the authentication flow and returns an authorization request payload to embed in the universal link
+- `GET /api/sign-in` – Starts the login flow and returns an authorization request, which is encoded to embed in the universal link
 - `POST /api/callback` – Receives the wallet response and verifies it using the bundled verification keys
-- `GET /api/auth-status` – Polls authentication status and returns verified user identity metadata
+- `GET /api/auth-status` – Checks whether the session has completed authentication
 
 ## Quick Start
 
