@@ -9,7 +9,7 @@ This service provides a complete authentication flow leveraging Billions's zero-
 ## Directories
 
 - `keys/`: Verification keys used by the verifier to validate Billions authentication responses. Required at runtime; update only when changing circuits.
-- `static/`: Frontend assets for the demo login UI (HTML, CSS, JS). Served by Express via `app.use(express.static('./static'))` in `index.js`.
+- `static/`: Frontend assets for the demo UI. Served by Express via `app.use(express.static('./static'))` in `index.js`.
 
 ### API Endpoints
 
