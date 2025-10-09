@@ -4,7 +4,7 @@ A Node.js backend service implementing secure authentication using Privado's dec
 
 ## Overview
 
-This service provides a complete authentication flow leveraging Privado's zero-knowledge proof system. Users authenticate by clicking a universal link that opens the Privado ID wallet, offering a privacy-preserving alternative to traditional credential-based authentication.
+This service provides a complete authentication flow leveraging Privado's zero-knowledge proof system. Users authenticate by clicking a universal link that opens the Privado ID wallet, offering a privacy-preserving authentication.
 
 ## Directories
 
