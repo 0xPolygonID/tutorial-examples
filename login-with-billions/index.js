@@ -1,6 +1,5 @@
-const path = require("path");
 const express = require("express");
-const { auth, resolver, protocol } = require("@iden3/js-iden3-auth");
+const { auth, resolver } = require("@iden3/js-iden3-auth");
 const getRawBody = require("raw-body");
 const cors = require('cors');
 const app = express();
@@ -106,7 +105,6 @@ async function callback(req, res) {
         // EXECUTE BASIC VERIFICATION (no proof verification needed)
         const verifier = await auth.Verifier.newVerifier({
             stateResolver: resolvers,
-            circuitsDir: path.join(__dirname, keyDIR),
             ipfsGatewayURL: "https://ipfs.io",
         });
 
