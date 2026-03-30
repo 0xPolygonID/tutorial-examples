@@ -2,6 +2,7 @@ const express = require("express");
 const { auth, resolver } = require("@iden3/js-iden3-auth");
 const getRawBody = require("raw-body");
 const cors = require('cors');
+const { randomUUID } = require('crypto');
 const app = express();
 const port = 8080;
 
@@ -50,7 +51,7 @@ const requestMap = new Map();
 async function getAuthRequest(req, res) {
     
     const hostUrl = "Your_Public_API";
-    const sessionId = Date.now(); // Use timestamp for unique session ID
+    const sessionId = randomUUID();
     const callbackURL = "/api/callback";
     const verifier_did ="Your_Verifier_DID"; 
 
